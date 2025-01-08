@@ -1,0 +1,28 @@
+{
+    "output": {
+        "filePath": "./repomix-semem.txt",
+        "headerText": "Semem repo",
+        "removeComments": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "ignore": {
+        "useDefaultPatterns": false,
+        "customPatterns": [
+            "docs",
+            "data",
+            "docs/jsdoc",
+            ".nyc_output",
+            ".env",
+            "**/_*",
+            "node_modules",
+            "*.log",
+            "**/*repomix*.txt",
+            "**/*.html",
+            "**/data/*",
+            "**/*copy.js",
+            "**/conversations.json"
+        ]
+    }
+}
