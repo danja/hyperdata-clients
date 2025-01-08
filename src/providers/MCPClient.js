@@ -1,4 +1,4 @@
-// src/mcp/mcp-client.js
+
 import { AIClient, AIError } from '../base-client.js';
 
 export class MCPClient extends AIClient {

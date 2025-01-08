@@ -1,13 +1,13 @@
-// src/factory.js
-import { OpenAIClient } from './providers/openai.js';
-import { ClaudeClient } from './providers/claude.js';
-import { OllamaClient } from './providers/ollama.js';
-import { MistralClient } from './providers/mistral.js';
-import { GroqClient } from './providers/groq.js';
-import { PerplexityClient } from './providers/perplexity.js';
-import { HuggingFaceClient } from './providers/huggingface.js';
-import { MCPClient } from './mcp/mcp-client.js';
-import { KeyManager } from './utils/key-manager.js';
+
+import { OpenAIClient } from './providers/OpenAIClient.js';
+import { ClaudeClient } from './providers/ClaudeClient.js';
+import { OllamaClient } from './providers/OllamaClient.js';
+import { MistralClient } from './providers/MistralClient.js';
+import { GroqClient } from './providers/GroqClient.js';
+import { PerplexityClient } from './providers/PerplexityClient.js';
+import { HuggingFaceClient } from './providers/HuggingFaceClient.js';
+import { MCPClient } from './mcp/MCPClient.js';
+import { KeyManager } from './common/KeyManager.js';
 
 const PROVIDERS = {
     openai: OpenAIClient,
@@ -34,7 +34,7 @@ export async function createAIClient(provider, config = {}) {
     // Wrap with MCP if requested
     if (config.mcp) {
         const mcpClient = new MCPClient(config.mcp);
-        
+
         // Register MCP resources if provided
         if (config.mcp.resources) {
             for (const [id, resource] of Object.entries(config.mcp.resources)) {
