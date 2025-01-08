@@ -1,0 +1,9 @@
+# .env.test
+OPENAI_API_KEY=test_key
+CLAUDE_API_KEY=test_key
+MISTRAL_API_KEY=test_key
+GROQ_API_KEY=test_key
+PERPLEXITY_API_KEY=test_key
+HUGGINGFACE_API_KEY=test_key
+OLLAMA_HOST=http://localhost:11434
+TEST_TIMEOUT=1000

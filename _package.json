@@ -1,0 +1,27 @@
+{
+    "name": "ai-client-library",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Unified client library for multiple AI providers",
+    "main": "src/factory.js",
+    "scripts": {
+        "test": "jasmine",
+        "coverage": "c8 npm test"
+    },
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.17.1",
+        "@huggingface/inference": "^2.6.4",
+        "@mistralai/mistralai": "^0.0.10",
+        "groq-sdk": "^0.3.0",
+        "ollama": "^0.4.4",
+        "openai": "^4.28.0"
+    },
+    "devDependencies": {
+        "c8": "^9.1.0",
+        "chai": "^5.0.3",
+        "jasmine": "^5.1.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

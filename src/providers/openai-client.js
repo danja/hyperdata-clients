@@ -1,0 +1,76 @@
+// providers/openai.js
+import OpenAI from 'openai';
+import { AIClient, AIError } from '../base-client.js';
+
+export class OpenAIClient extends AIClient {
+    constructor(config) {
+        super(config);
+        this.client = new OpenAI({
+            apiKey: config.apiKey,
+            ...config.clientOptions
+        });
+    }
+
+    async chat(messages, options = {}) {
+        try {
+            const response = await this.client.chat.completions.create({
+                model: options.model || 'gpt-4-turbo-preview',
+                messages,
+                temperature: options.temperature || 0.7,
+                max_tokens: options.maxTokens,
+                ...options
+            });
+            return response.choices[0].message.content;
+        } catch (error) {
+            throw new AIError(error.message, 'openai', error.status);
+        }
+    }
+
+    async complete(prompt, options = {}) {
+        try {
+            const response = await this.client.completions.create({
+                model: options.model || 'gpt-3.5-turbo-instruct',
+                prompt,
+                temperature: options.temperature || 0.7,
+                max_tokens: options.maxTokens,
+                ...options
+            });
+            return response.choices[0].text;
+        } catch (error) {
+            throw new AIError(error.message, 'openai', error.status);
+        }
+    }
+
+    async embedding(text, options = {}) {
+        try {
+            const response = await this.client.embeddings.create({
+                model: options.model || 'text-embedding-3-small',
+                input: text,
+                ...options
+            });
+            return response.data[0].embedding;
+        } catch (error) {
+            throw new AIError(error.message, 'openai', error.status);
+        }
+    }
+
+    async stream(messages, callback, options = {}) {
+        try {
+            const stream = await this.client.chat.completions.create({
+                model: options.model || 'gpt-4-turbo-preview',
+                messages,
+                temperature: options.temperature || 0.7,
+                max_tokens: options.maxTokens,
+                stream: true,
+                ...options
+            });
+
+            for await (const chunk of stream) {
+                const content = chunk.choices[0]?.delta?.content || '';
+                if (content) callback(content);
+            }
+        } catch (error) {
+            throw new AIError(error.message, 'openai', error.status);
+        }
+    }
+}

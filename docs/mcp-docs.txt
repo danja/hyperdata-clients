@@ -1,0 +1,100 @@
+# Model Context Protocol Implementation
+
+A JavaScript implementation of the Model Context Protocol (MCP) for AI providers.
+
+## Installation
+
+```bash
+npm install ai-client-library
+```
+
+## Basic Usage
+
+```javascript
+import { createAIClient } from 'ai-client-library';
+
+const client = await createAIClient('openai', {
+    apiKey: 'your-api-key',
+    mcp: {
+        resources: {
+            'docs': { uri: 'file://docs/', mimeType: 'text/markdown' }
+        }
+    }
+});
+```
+
+## Features
+
+- Unified interface for multiple AI providers
+- MCP resource management
+- Tool execution framework
+- Prompt templating
+- State persistence
+- Streaming support
+
+## Supported Providers
+
+- OpenAI
+- Claude (Anthropic)
+- Mistral
+- Groq
+- Perplexity
+- HuggingFace
+- Ollama
+
+## MCP Components
+
+### Resources
+
+```javascript
+await client.registerResource('docs', {
+    uri: 'file://docs/',
+    mimeType: 'text/markdown'
+});
+```
+
+### Tools
+
+```javascript
+await client.registerTool('search', {
+    name: 'Search Documentation',
+    description: 'Search through docs',
+    execute: async (query) => { /* ... */ }
+});
+```
+
+### Prompts
+
+```javascript
+await client.registerPrompt('summarize', {
+    name: 'Summarize Text',
+    template: (ctx) => `Summarize: ${ctx.text}`
+});
+```
+
+## State Persistence
+
+```javascript
+const client = await createAIClient('openai', {
+    mcp: {
+        stateFile: 'mcp-state.json',
+        onStateChange: async (state) => {
+            // Handle state changes
+        }
+    }
+});
+```
+
+## Error Handling
+
+The library provides structured error handling through the `AIError` class:
+
+```javascript
+try {
+    await client.executeTool('nonexistent');
+} catch (error) {
+    if (error.code === 'TOOL_NOT_FOUND') {
+        // Handle missing tool
+    }
+}
+```

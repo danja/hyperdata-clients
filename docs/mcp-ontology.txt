@@ -1,0 +1,75 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix mcp: <http://modelcontextprotocol.io/schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+mcp:AIClient
+    a owl:Class ;
+    rdfs:label "AI Client"@en ;
+    rdfs:comment "Base client for AI model interactions"@en .
+
+mcp:Resource
+    a owl:Class ;
+    rdfs:label "MCP Resource"@en ;
+    rdfs:comment "A resource accessible via MCP"@en .
+
+mcp:Tool
+    a owl:Class ;
+    rdfs:label "MCP Tool"@en ;
+    rdfs:comment "An executable tool in MCP"@en .
+
+mcp:Prompt
+    a owl:Class ;
+    rdfs:label "MCP Prompt"@en ;
+    rdfs:comment "A prompt template in MCP"@en .
+
+mcp:hasResource
+    a owl:ObjectProperty ;
+    rdfs:domain mcp:AIClient ;
+    rdfs:range mcp:Resource .
+
+mcp:hasTool
+    a owl:ObjectProperty ;
+    rdfs:domain mcp:AIClient ;
+    rdfs:range mcp:Tool .
+
+mcp:hasPrompt
+    a owl:ObjectProperty ;
+    rdfs:domain mcp:AIClient ;
+    rdfs:range mcp:Prompt .
+
+mcp:uri
+    a owl:DatatypeProperty ;
+    rdfs:domain mcp:Resource ;
+    rdfs:range xsd:anyURI .
+
+mcp:mimeType
+    a owl:DatatypeProperty ;
+    rdfs:domain mcp:Resource ;
+    rdfs:range xsd:string .
+
+mcp:name
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        owl:unionOf (mcp:Tool mcp:Prompt)
+    ] ;
+    rdfs:range xsd:string .
+
+mcp:description
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        owl:unionOf (mcp:Tool mcp:Prompt)
+    ] ;
+    rdfs:range xsd:string .
+
+mcp:execute
+    a owl:DatatypeProperty ;
+    rdfs:domain mcp:Tool ;
+    rdfs:range xsd:string .
+
+mcp:template
+    a owl:DatatypeProperty ;
+    rdfs:domain mcp:Prompt ;
+    rdfs:range xsd:string .
