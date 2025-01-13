@@ -5,8 +5,10 @@
   "description": "Unified client library for multiple AI providers",
   "main": "src/factory.js",
   "scripts": {
-    "test": "NODE_ENV=test node -r dotenv/config ./node_modules/.bin/jasmine",
     "coverage": "NODE_ENV=test c8 npm test"
+    "test": "jasmine --config=jasmine.json --reporter=tests/helpers/reporter.js",
+    "docs": "jsdoc -c jsdoc.json",
+    "rp": "repomix -c repomix.config.json . "
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.1",
