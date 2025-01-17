@@ -5,7 +5,7 @@
   "description": "Unified client library for multiple AI providers",
   "main": "src/factory.js",
   "scripts": {
-    "coverage": "NODE_ENV=test c8 npm test"
+    "coverage": "NODE_ENV=test c8 npm test",
     "test": "jasmine --config=jasmine.json --reporter=tests/helpers/reporter.js",
     "docs": "jsdoc -c jsdoc.json",
     "rp": "repomix -c repomix.config.json . "
