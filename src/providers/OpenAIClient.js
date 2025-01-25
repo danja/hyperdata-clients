@@ -1,17 +1,17 @@
 // providers/openai.js
-import OpenAI from 'openai';
-import { AIClient, AIError } from '../base-client.js';
+import OpenAI from 'openai'
+import { AIClient, AIError } from '../common/AIClient.js'
 
 export class OpenAIClient extends AIClient {
     constructor(config = {}) {
-        super(config);
+        super(config)
         this.client = new OpenAI({
             apiKey: config.apiKey || process.env.OPENAI_API_KEY,
             ...config.clientOptions
-        });
+        })
 
         if (!this.client.apiKey) {
-            throw new Error('OpenAI API key is required. Provide it in constructor or set OPENAI_API_KEY environment variable.');
+            throw new Error('OpenAI API key is required. Provide it in constructor or set OPENAI_API_KEY environment variable.')
         }
     }
 
@@ -23,10 +23,10 @@ export class OpenAIClient extends AIClient {
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
                 ...options
-            });
-            return response.choices[0].message.content;
+            })
+            return response.choices[0].message.content
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status);
+            throw new AIError(error.message, 'openai', error.status)
         }
     }
 
@@ -38,10 +38,10 @@ export class OpenAIClient extends AIClient {
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
                 ...options
-            });
-            return response.choices[0].text;
+            })
+            return response.choices[0].text
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status);
+            throw new AIError(error.message, 'openai', error.status)
         }
     }
 
@@ -51,10 +51,10 @@ export class OpenAIClient extends AIClient {
                 model: options.model || 'text-embedding-3-small',
                 input: text,
                 ...options
-            });
-            return response.data[0].embedding;
+            })
+            return response.data[0].embedding
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status);
+            throw new AIError(error.message, 'openai', error.status)
         }
     }
 
@@ -67,14 +67,14 @@ export class OpenAIClient extends AIClient {
                 max_tokens: options.maxTokens,
                 stream: true,
                 ...options
-            });
+            })
 
             for await (const chunk of stream) {
-                const content = chunk.choices[0]?.delta?.content || '';
-                if (content) callback(content);
+                const content = chunk.choices[0]?.delta?.content || ''
+                if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status);
+            throw new AIError(error.message, 'openai', error.status)
         }
     }
 }

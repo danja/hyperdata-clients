@@ -1,16 +1,16 @@
-import MistralClient from '@mistralai/mistralai'
+import Anthropic from '@anthropic-ai/sdk'
 import { AIClient, AIError } from '../common/AIClient.js'
 
-export class MistralClient extends AIClient {
+export class ClaudeClient extends AIClient {
     constructor(config = {}) {
         super(config)
-        const apiKey = config.apiKey || process.env.MISTRAL_API_KEY
+        const apiKey = config.apiKey || process.env.CLAUDE_API_KEY
 
         if (!apiKey) {
-            throw new Error('Mistral API key is required. Provide it in constructor or set MISTRAL_API_KEY environment variable.')
+            throw new Error('Claude API key is required. Provide it in constructor or set CLAUDE_API_KEY environment variable.')
         }
 
-        this.client = new MistralClient({
+        this.client = new Anthropic({
             apiKey,
             ...config.clientOptions
         })
@@ -18,16 +18,16 @@ export class MistralClient extends AIClient {
 
     async chat(messages, options = {}) {
         try {
-            const response = await this.client.chat.create({
-                model: options.model || 'mistral-tiny',
+            const response = await this.client.messages.create({
+                model: options.model || 'claude-3-opus-20240229',
                 messages,
-                maxTokens: options.maxTokens,
                 temperature: options.temperature || 0.7,
+                max_tokens: options.maxTokens,
                 ...options
             })
-            return response.choices[0].message.content
+            return response.content[0].text
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new AIError(error.message, 'claude', error.status)
         }
     }
 
@@ -38,32 +38,33 @@ export class MistralClient extends AIClient {
     async embedding(text, options = {}) {
         try {
             const response = await this.client.embeddings.create({
-                model: options.model || 'mistral-embed',
+                model: options.model || 'claude-3-embedding',
                 input: text instanceof Array ? text : [text],
                 ...options
             })
-            return response.data[0].embedding
+            return response.embeddings[0]
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new AIError(error.message, 'claude', error.status)
         }
     }
 
     async stream(messages, callback, options = {}) {
         try {
-            const stream = await this.client.chat.stream({
-                model: options.model || 'mistral-tiny',
+            const stream = await this.client.messages.create({
+                model: options.model || 'claude-3-opus-20240229',
                 messages,
-                maxTokens: options.maxTokens,
                 temperature: options.temperature || 0.7,
+                max_tokens: options.maxTokens,
+                stream: true,
                 ...options
             })
 
             for await (const chunk of stream) {
-                const content = chunk.choices[0]?.delta?.content || ''
+                const content = chunk.delta?.text || ''
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new AIError(error.message, 'claude', error.status)
         }
     }
 }

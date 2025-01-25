@@ -1,8 +1,8 @@
 {
     "output": {
-        "filePath": "./repomix-semem.txt",
-        "headerText": "Semem repo",
-        "removeComments": true
+        "filePath": "./repomix-clients.md",
+        "headerText": "clients repo",
+        "removeComments": false
     },
     "include": [
         "**/*"

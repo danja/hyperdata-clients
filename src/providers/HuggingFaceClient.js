@@ -1,21 +1,21 @@
-import { HfInference } from '@huggingface/inference';
-import { AIClient, AIError } from '../base-client.js';
+import { HfInference } from '@huggingface/inference'
+import { AIClient, AIError } from '../common/AIClient.js'
 
 export class HuggingFaceClient extends AIClient {
     constructor(config = {}) {
-        super(config);
-        const apiKey = config.apiKey || process.env.HUGGINGFACE_API_KEY;
+        super(config)
+        const apiKey = config.apiKey || process.env.HUGGINGFACE_API_KEY
 
         if (!apiKey) {
-            throw new Error('HuggingFace API key is required. Provide it in constructor or set HUGGINGFACE_API_KEY environment variable.');
+            throw new Error('HuggingFace API key is required. Provide it in constructor or set HUGGINGFACE_API_KEY environment variable.')
         }
 
-        this.client = new HfInference(apiKey);
+        this.client = new HfInference(apiKey)
     }
 
     async chat(messages, options = {}) {
         try {
-            const input = messages.map(m => `${m.role}: ${m.content}`).join('\n');
+            const input = messages.map(m => `${m.role}: ${m.content}`).join('\n')
             const response = await this.client.textGeneration({
                 model: options.model || 'gpt2',
                 inputs: input,
@@ -24,10 +24,10 @@ export class HuggingFaceClient extends AIClient {
                     temperature: options.temperature || 0.7,
                     ...options.parameters
                 }
-            });
-            return response.generated_text;
+            })
+            return response.generated_text
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status);
+            throw new AIError(error.message, 'huggingface', error.status)
         }
     }
 
@@ -41,10 +41,10 @@ export class HuggingFaceClient extends AIClient {
                     temperature: options.temperature || 0.7,
                     ...options.parameters
                 }
-            });
-            return response.generated_text;
+            })
+            return response.generated_text
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status);
+            throw new AIError(error.message, 'huggingface', error.status)
         }
     }
 
@@ -54,14 +54,14 @@ export class HuggingFaceClient extends AIClient {
                 model: options.model || 'sentence-transformers/all-MiniLM-L6-v2',
                 inputs: text instanceof Array ? text : [text],
                 ...options
-            });
-            return response[0];
+            })
+            return response[0]
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status);
+            throw new AIError(error.message, 'huggingface', error.status)
         }
     }
 
     async stream(messages, callback, options = {}) {
-        throw new AIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION');
+        throw new AIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
     }
 }

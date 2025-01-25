@@ -1,10 +1,10 @@
-import ollama from 'ollama';
-import { AIClient, AIError } from '../base-client.js';
+import ollama from 'ollama'
+import { AIClient, AIError } from '../common/AIClient.js'
 
 export class OllamaClient extends AIClient {
     constructor(config = {}) {
-        super(config);
-        this.baseUrl = config.baseUrl || process.env.OLLAMA_HOST || 'http://localhost:11434';
+        super(config)
+        this.baseUrl = config.baseUrl || process.env.OLLAMA_HOST || 'http://localhost:11434'
     }
 
     async chat(messages, options = {}) {
@@ -13,10 +13,10 @@ export class OllamaClient extends AIClient {
                 model: options.model || 'llama2',
                 messages,
                 ...options
-            }, { baseUrl: this.baseUrl });
-            return response.message.content;
+            }, { baseUrl: this.baseUrl })
+            return response.message.content
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code);
+            throw new AIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -26,10 +26,10 @@ export class OllamaClient extends AIClient {
                 model: options.model || 'llama2',
                 prompt,
                 ...options
-            }, { baseUrl: this.baseUrl });
-            return response.response;
+            }, { baseUrl: this.baseUrl })
+            return response.response
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code);
+            throw new AIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -39,10 +39,10 @@ export class OllamaClient extends AIClient {
                 model: options.model || 'nomic-embed-text',
                 prompt: text,
                 ...options
-            }, { baseUrl: this.baseUrl });
-            return response.embedding;
+            }, { baseUrl: this.baseUrl })
+            return response.embedding
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code);
+            throw new AIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -53,14 +53,14 @@ export class OllamaClient extends AIClient {
                 messages,
                 stream: true,
                 ...options
-            }, { baseUrl: this.baseUrl });
+            }, { baseUrl: this.baseUrl })
 
             for await (const chunk of stream) {
-                const content = chunk.message?.content || '';
-                if (content) callback(content);
+                const content = chunk.message?.content || ''
+                if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code);
+            throw new AIError(error.message, 'ollama', error.code)
         }
     }
 }

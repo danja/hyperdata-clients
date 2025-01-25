@@ -1,21 +1,21 @@
 // spec/integration/mcp-integration.spec.js
-import { expect } from 'chai';
-import { createAIClient } from '../../src/factory.js';
-import fs from 'fs/promises';
-import path from 'path';
+import { expect } from 'chai'
+import { createAIClient } from '../../src/common/ClientFactory.js'
+import fs from 'fs/promises'
+import path from 'path'
 
 describe('MCP Integration Tests', () => {
-    let client;
-    let testDir;
+    let client
+    let testDir
 
     before(async () => {
         // Create test resources directory
-        testDir = path.join(process.cwd(), 'test-resources');
-        await fs.mkdir(testDir, { recursive: true });
+        testDir = path.join(process.cwd(), 'test-resources')
+        await fs.mkdir(testDir, { recursive: true })
         await fs.writeFile(
             path.join(testDir, 'test.txt'),
             'This is a test document for MCP integration.'
-        );
+        )
 
         client = await createAIClient('openai', {
             apiKey: process.env.OPENAI_API_KEY,
@@ -31,8 +31,8 @@ describe('MCP Integration Tests', () => {
                         name: 'File Reader',
                         description: 'Reads file content',
                         execute: async (args) => {
-                            const content = await fs.readFile(args.path, 'utf-8');
-                            return content;
+                            const content = await fs.readFile(args.path, 'utf-8')
+                            return content
                         }
                     }
                 },
@@ -43,36 +43,36 @@ describe('MCP Integration Tests', () => {
                     }
                 }
             }
-        });
-    });
+        })
+    })
 
     after(async () => {
-        await fs.rm(testDir, { recursive: true });
-    });
+        await fs.rm(testDir, { recursive: true })
+    })
 
     it('should read and process real file resources', async () => {
-        const resource = await client.getResource('test-doc');
-        expect(resource.uri).to.include('test.txt');
-        
-        const content = await client.executeTool('file-reader', { 
-            path: resource.uri.replace('file://', '') 
-        });
-        expect(content).to.include('test document');
-    });
+        const resource = await client.getResource('test-doc')
+        expect(resource.uri).to.include('test.txt')
+
+        const content = await client.executeTool('file-reader', {
+            path: resource.uri.replace('file://', '')
+        })
+        expect(content).to.include('test document')
+    })
 
     it('should use MCP-enhanced chat completion', async () => {
-        const resource = await client.getResource('test-doc');
-        const content = await client.executeTool('file-reader', { 
-            path: resource.uri.replace('file://', '') 
-        });
-        
-        const prompt = await client.renderPrompt('summarize', { text: content });
-        const summary = await client.chat([{ 
-            role: 'user', 
-            content: prompt 
-        }]);
+        const resource = await client.getResource('test-doc')
+        const content = await client.executeTool('file-reader', {
+            path: resource.uri.replace('file://', '')
+        })
 
-        expect(summary).to.be.a('string');
-        expect(summary.length).to.be.greaterThan(0);
-    });
-});
+        const prompt = await client.renderPrompt('summarize', { text: content })
+        const summary = await client.chat([{
+            role: 'user',
+            content: prompt
+        }])
+
+        expect(summary).to.be.a('string')
+        expect(summary.length).to.be.greaterThan(0)
+    })
+})
