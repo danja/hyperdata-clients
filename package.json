@@ -18,7 +18,8 @@
     "dotenv": "^16.4.1",
     "groq-sdk": "^0.3.0",
     "ollama": "^0.4.4",
-    "openai": "^4.28.0"
+    "openai": "^4.28.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "c8": "^9.1.0",

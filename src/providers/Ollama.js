@@ -10,9 +10,9 @@ export class Ollama extends APIClient {
 
     async chat(messages, options = {}) {
         try {
-            // Ensure the model name from the factory call is used
+            // 'llama2'
             const response = await ollama.chat({
-                model: this.config.model || options.model || 'llama2',
+                model: options.model || this.config.model || 'qwen2:1.5b',
                 messages,
                 ...options
             }, { baseUrl: this.baseUrl })

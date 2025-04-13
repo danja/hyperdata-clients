@@ -4,29 +4,63 @@ import ClientFactory from '../src/common/ClientFactory.js'
 // Load environment variables from .env file
 dotenv.config()
 
-const [, , apiName, userPrompt] = process.argv
+// Get raw arguments
+const rawArgs = process.argv.slice(2)
+let apiName, modelName, promptParts
 
-if (!apiName) {
-    console.error('Error: API name is required as the first argument.')
+// Parse arguments manually to preserve quotes and spaces
+if (rawArgs.length > 0) {
+    apiName = rawArgs[0]
+    promptParts = rawArgs.slice(1)
+
+    // Check for --model flag
+    const modelFlagIndex = promptParts.findIndex(arg => arg === '--model' || arg === '-m')
+    if (modelFlagIndex !== -1 && modelFlagIndex < promptParts.length - 1) {
+        modelName = promptParts[modelFlagIndex + 1]
+        // Remove model flag and value from prompt parts
+        promptParts.splice(modelFlagIndex, 2)
+    }
+}
+
+const userPrompt = promptParts ? promptParts.join(' ') : ''
+
+// Show help if no arguments or --help flag
+if (!apiName || rawArgs.includes('--help') || rawArgs.includes('-h')) {
+    console.log(`Usage: node minimal.js <apiName> [prompt..] [--model <modelName>]
+    
+Arguments:
+  apiName          The API provider to use (e.g., ollama, openai)
+  prompt           The prompt text to send. If multiple words, use quotes
+  
+Options:
+  --model, -m      The model to use (optional)
+  --help, -h       Show this help message`)
     process.exit(1)
 }
 
-const defaultPrompt = 'What is your name, and which model are you?'
-const prompt = userPrompt || defaultPrompt
-
 console.log(`Using API: ${apiName}`)
-console.log(`Prompt: ${prompt}`);
+console.log(`Model: ${modelName || 'default'}`)
+console.log(`Prompt: ${userPrompt || 'default'}`)
 
-(async () => {
-    try {
-        const client = await ClientFactory.createAPIClient(apiName, { apiKey: process.env[`${apiName.toUpperCase()}_API_KEY`] })
+if (!userPrompt) {
+    console.error('Error: No prompt provided')
+    process.exit(1)
+}
 
-        const response = await client.chat([
-            { role: 'user', content: prompt }
-        ])
-
-        console.log('Response:', response)
-    } catch (error) {
-        console.error('Error:', error)
+try {
+    const clientOptions = {
+        apiKey: process.env[`${apiName.toUpperCase()}_API_KEY`],
+        model: modelName
     }
-})()
+
+    const client = await ClientFactory.createAPIClient(apiName, clientOptions)
+
+    const response = await client.chat([
+        { role: 'user', content: userPrompt }
+    ])
+
+    console.log('Response:', response)
+} catch (error) {
+    console.error('Error:', error)
+}
+
