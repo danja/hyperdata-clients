@@ -27,7 +27,7 @@ Various other clients sketched out, will likely need tweaking.
 
 Only tested on recent Ubuntu.
 
-There's a very basic CLI for checking the thing, also runnable hardcoded examples eg.
+There's a very basic CLI for checking the thing (see below), also runnable hardcoded examples eg.
 
 ```sh
 node examples/MistralMinimal.js
