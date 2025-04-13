@@ -1,5 +1,4 @@
-
-export class KeyManager {
+class KeyManager {
     static validateKey(key, provider) {
         if (!key) {
             throw new Error(`${provider} API key is required`);
@@ -32,3 +31,5 @@ export class KeyManager {
         return newKey;
     }
 }
+
+export default KeyManager;

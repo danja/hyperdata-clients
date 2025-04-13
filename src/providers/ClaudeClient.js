@@ -68,3 +68,5 @@ export class ClaudeClient extends AIClient {
         }
     }
 }
+
+export default ClaudeClient;

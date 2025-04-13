@@ -65,3 +65,5 @@ export class HuggingFaceClient extends AIClient {
         throw new AIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
     }
 }
+
+export default HuggingFaceClient;

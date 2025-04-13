@@ -1,7 +1,6 @@
-
 import { AIClient, AIError } from '../common/AIClient.js'
 
-export class MCPClient extends AIClient {
+export default class MCPClient extends AIClient {
     constructor(config = {}) {
         super(config)
         this.resources = new Map()

@@ -64,3 +64,5 @@ export class OllamaClient extends AIClient {
         }
     }
 }
+
+export default OllamaClient;

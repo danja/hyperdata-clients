@@ -60,3 +60,5 @@ export class PerplexityClient extends AIClient {
         }
     }
 }
+
+export default PerplexityClient;

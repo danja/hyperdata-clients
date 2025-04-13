@@ -78,3 +78,5 @@ export class OpenAIClient extends AIClient {
         }
     }
 }
+
+export default OpenAIClient;

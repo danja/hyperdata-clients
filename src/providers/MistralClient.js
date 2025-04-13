@@ -67,3 +67,5 @@ export class MistralClient extends AIClient {
         }
     }
 }
+
+export default MistralClient;

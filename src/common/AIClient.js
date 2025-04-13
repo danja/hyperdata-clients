@@ -1,4 +1,3 @@
-
 export class AIClient {
     constructor(config = {}) {
         if (this.constructor === AIClient) {
