@@ -14,7 +14,11 @@ class KeyManager {
         // 1. Environment variable from .env (with override)
         // 2. Config object's apiKey
         const envKey = process.env[`${provider.toUpperCase()}_API_KEY`]
-        const key = envKey || config.apiKey
+        const key = envKey || (config && config.apiKey)
+
+        if (!key) {
+            throw new Error(`${provider} API key is required`)
+        }
 
         // Debug logging
         console.debug(`Using ${provider} key from: ${envKey ? '.env file' : 'config object'}`)
@@ -35,7 +39,8 @@ class KeyManager {
             mistral: /^[a-zA-Z0-9]{32,}$/,
             groq: /^gsk_[a-zA-Z0-9]{32,}$/,
             perplexity: /^pplx-[a-zA-Z0-9]{32,}$/,
-            huggingface: /^hf_[a-zA-Z0-9]{32,}$/
+            huggingface: /^hf_[a-zA-Z0-9]{32,}$/,
+            mcp: /^mcp-[a-zA-Z0-9_-]{20,}$/
         }
 
         if (patterns[provider] && !patterns[provider].test(key)) {

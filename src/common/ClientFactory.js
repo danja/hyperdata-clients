@@ -13,7 +13,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 class ClientFactory {
-
     static PROVIDERS = {
         openai: OpenAIClient,
         claude: Claude,
@@ -25,59 +24,40 @@ class ClientFactory {
     }
 
     static async createAPIClient(provider, config = {}) {
-        const ClientClass = ClientFactory.PROVIDERS[provider.toLowerCase()]
+        const normalizedProvider = provider.toLowerCase()
+        const ClientClass = ClientFactory.PROVIDERS[normalizedProvider]
         if (!ClientClass) {
             throw new Error(`Unknown AI provider: ${provider}`)
         }
 
-        // Validate and get API key
-        const key = KeyManager.getKey(config, provider)
-
-        // Create base client
-        const client = new ClientClass({ ...config, apiKey: key })
-
-        // Ensure the client has the required methods
-        if (typeof client.chat !== 'function') {
-            throw new Error(`The client for provider ${provider} does not implement the required 'chat' method.`)
+        // Check required methods exist on the prototype
+        if (typeof ClientClass.prototype.chat !== 'function') {
+            throw new Error(`The client for provider ${provider} does not implement the required 'chat' method`)
         }
 
+        // Validate and get API key
+        const key = KeyManager.getKey(config, normalizedProvider)
+
+        // Create client instance
+        const client = new ClientClass({ ...config, apiKey: key })
         return client
     }
 
-
     static async createMCPClient(mcpConfig) {
-        const mcpClient = new MCPClient(mcpConfig)
-
-        // Register MCP resources if provided
-        if (mcpConfig.resources) {
-            for (const [id, resource] of Object.entries(mcpConfig.resources)) {
-                await mcpClient.registerResource(id, resource)
-            }
+        if (!mcpConfig) {
+            throw new Error('MCP configuration is required')
         }
 
-        // Register MCP tools if provided
-        if (mcpConfig.tools) {
-            for (const [id, tool] of Object.entries(mcpConfig.tools)) {
-                await mcpClient.registerTool(id, tool)
-            }
-        }
+        // Validate and get MCP key
+        const key = KeyManager.getKey(mcpConfig, 'mcp')
 
-        // Register MCP prompts if provided
-        if (mcpConfig.prompts) {
-            for (const [id, prompt] of Object.entries(mcpConfig.prompts)) {
-                await mcpClient.registerPrompt(id, prompt)
-            }
-        }
-
-        // Extend client with MCP capabilities
-        return new Proxy(client, {
-            get(target, prop) {
-                if (prop in mcpClient) {
-                    return mcpClient[prop].bind(mcpClient)
-                }
-                return target[prop]
-            }
+        // Create MCP client with validated key
+        const client = new MCPClient({
+            ...mcpConfig,
+            apiKey: key
         })
+
+        return client
     }
 }
 

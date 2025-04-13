@@ -1,6 +1,18 @@
-import { Groq } from 'groq-sdk'
 import APIClient from '../common/APIClient.js'
 import APIError from '../common/APIError.js'
+
+// Import the appropriate SDK based on environment
+let Groq
+try {
+    if (process.env.NODE_ENV === 'test') {
+        Groq = (await import('../../tests/helpers/mockGroq.js')).Groq
+    } else {
+        Groq = (await import('groq-sdk')).Groq
+    }
+} catch (error) {
+    console.warn('Failed to load Groq SDK:', error)
+    throw error
+}
 
 export class Groqq extends APIClient {
     constructor(config = {}) {
@@ -11,10 +23,7 @@ export class Groqq extends APIClient {
             throw new Error('Groq API key is required. Provide it in constructor or set GROQ_API_KEY environment variable.')
         }
 
-        this.client = new GroqClient({
-            apiKey,
-            ...config.clientOptions
-        })
+        this.client = new Groq(apiKey)
     }
 
     async chat(messages, options = {}) {
@@ -52,7 +61,7 @@ export class Groqq extends APIClient {
             })
 
             for await (const chunk of stream) {
-                const content = chunk.choices[0]?.delta?.content || ''
+                const content = chunk.choices[0]?.delta?.content
                 if (content) callback(content)
             }
         } catch (error) {
@@ -61,4 +70,4 @@ export class Groqq extends APIClient {
     }
 }
 
-export default Groq
+export default Groqq
