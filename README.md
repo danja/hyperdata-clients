@@ -4,14 +4,16 @@ Yet another node API client library for interacting with AI providers using a co
 
 _I wanted my own so I knew how it worked_
 
-> npm run ask mistral 'In brief, how many AGIs will it take to change a lightbulb?'
-> ...
-> Using API: mistral
-> Model: default
-> Prompt: In brief, how many AGIs will it take to change a lightbulb?
-> Using mistral key from: .env file
+```sh
+npm run ask mistral 'In brief, how many AGIs will it take to change a lightbulb?'
+...
+Using API: mistral
+Model: default
+Prompt: In brief, how many AGIs will it take to change a lightbulb?
+Using mistral key from: .env file
 
-> ...it's uncertain how many would be needed to change a lightbulb...
+...it's uncertain how many would be needed to change a lightbulb...
+```
 
 ## Status: 2025-04-13
 
