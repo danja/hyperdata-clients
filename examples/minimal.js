@@ -49,18 +49,16 @@ if (!userPrompt) {
 
 try {
     const clientOptions = {
-        apiKey: process.env[`${apiName.toUpperCase()}_API_KEY`],
         model: modelName
     }
 
+    // Create client using environment variables for API key
     const client = await ClientFactory.createAPIClient(apiName, clientOptions)
-
     const response = await client.chat([
         { role: 'user', content: userPrompt }
     ])
-
-    console.log('Response:', response)
+    console.log(response)
 } catch (error) {
-    console.error('Error:', error)
+    console.error('Error:', error.message || error)
 }
 

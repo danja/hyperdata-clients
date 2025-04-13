@@ -7,6 +7,10 @@ import Perplexity from '../providers/Perplexity.js'
 import HuggingFace from '../providers/HuggingFace.js'
 import MCPClient from '../providers/MCP.js'
 import KeyManager from '../common/KeyManager.js'
+import dotenv from 'dotenv'
+
+// Ensure environment variables are loaded first
+dotenv.config()
 
 class ClientFactory {
 
