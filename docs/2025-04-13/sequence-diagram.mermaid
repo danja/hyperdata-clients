@@ -1,0 +1,53 @@
+sequenceDiagram
+    participant App as Application
+    participant Factory as ClientFactory
+    participant KM as KeyManager
+    participant Client as APIClient (Provider)
+    participant API as Provider API
+
+    App->>Factory: createAPIClient(provider, config)
+    activate Factory
+    Factory->>KM: getKey(config, provider)
+    activate KM
+    KM-->>Factory: apiKey
+    deactivate KM
+    Factory->>Client: new ClientClass(config)
+    Factory-->>App: client
+    deactivate Factory
+
+    Note over App,Client: Using the client
+
+    App->>Client: chat([messages])
+    activate Client
+    Client->>API: API-specific request
+    activate API
+    API-->>Client: API-specific response
+    deactivate API
+    Client-->>App: formatted response
+    deactivate Client
+
+    Note over App,API: Error handling
+
+    App->>Client: embedding(text)
+    activate Client
+    Client->>API: API-specific request
+    activate API
+    API--xClient: Error response
+    deactivate API
+    Client--xApp: APIError(message, provider, code)
+    deactivate Client
+
+    Note over App,API: Streaming
+
+    App->>Client: stream(messages, callback)
+    activate Client
+    Client->>API: Streaming request
+    activate API
+    loop For each chunk
+        API-->>Client: response chunk
+        Client-->>App: callback(chunk)
+    end
+    API-->>Client: end stream
+    deactivate API
+    Client-->>App: completed
+    deactivate Client
