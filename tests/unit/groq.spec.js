@@ -1,6 +1,6 @@
 // spec/providers/groq.spec.js
 import { expect } from 'chai';
-import { GroqClient } from '../../src/providers/groq.js';
+import { Groq } from '../../src/providers/groq.js';
 
 describe('Groq Client', () => {
     describe('Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('Groq Client', () => {
         let mockResponse;
 
         beforeEach(() => {
-            client = new GroqClient({ apiKey: 'test-key' });
+            client = new Groq({ apiKey: 'test-key' });
             mockResponse = {
                 choices: [{
                     message: { content: 'test response' },
@@ -44,10 +44,10 @@ describe('Groq Client', () => {
                 console.warn('Skipping Groq integration tests - no API key');
                 return;
             }
-            client = new GroqClient({ apiKey });
+            client = new Groq({ apiKey });
         });
 
-        it('should perform chat completion', async function() {
+        it('should perform chat completion', async function () {
             if (!process.env.GROQ_API_KEY) {
                 this.skip();
                 return;
@@ -56,12 +56,12 @@ describe('Groq Client', () => {
             const response = await client.chat([
                 { role: 'user', content: 'What is quantum computing?' }
             ]);
-            
+
             expect(response).to.be.a('string');
             expect(response.length).to.be.greaterThan(50);
         });
 
-        it('should handle streaming', async function() {
+        it('should handle streaming', async function () {
             if (!process.env.GROQ_API_KEY) {
                 this.skip();
                 return;

@@ -1,6 +1,6 @@
 // spec/integration/mcp-integration.spec.js
 import { expect } from 'chai'
-import { createAIClient } from '../../src/common/ClientFactory.js'
+import { createAPIClient } from '../../src/common/ClientFactory.js'
 import fs from 'fs/promises'
 import path from 'path'
 
@@ -17,7 +17,7 @@ describe('MCP Integration Tests', () => {
             'This is a test document for MCP integration.'
         )
 
-        client = await createAIClient('openai', {
+        client = await createAPIClient('openai', {
             apiKey: process.env.OPENAI_API_KEY,
             mcp: {
                 resources: {

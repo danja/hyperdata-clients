@@ -1,7 +1,8 @@
 import { Groq } from 'groq-sdk'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class GroqClient extends AIClient {
+export class Groqq extends APIClient {
     constructor(config = {}) {
         super(config)
         const apiKey = config.apiKey || process.env.GROQ_API_KEY
@@ -10,7 +11,7 @@ export class GroqClient extends AIClient {
             throw new Error('Groq API key is required. Provide it in constructor or set GROQ_API_KEY environment variable.')
         }
 
-        this.client = new Groq({
+        this.client = new GroqClient({
             apiKey,
             ...config.clientOptions
         })
@@ -27,7 +28,7 @@ export class GroqClient extends AIClient {
             })
             return response.choices[0].message.content
         } catch (error) {
-            throw new AIError(error.message, 'groq', error.status)
+            throw new APIError(error.message, 'groq', error.status)
         }
     }
 
@@ -36,7 +37,7 @@ export class GroqClient extends AIClient {
     }
 
     async embedding(text, options = {}) {
-        throw new AIError('Embeddings not supported by Groq', 'groq', 'UNSUPPORTED_OPERATION')
+        throw new APIError('Embeddings not supported by Groq', 'groq', 'UNSUPPORTED_OPERATION')
     }
 
     async stream(messages, callback, options = {}) {
@@ -55,9 +56,9 @@ export class GroqClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'groq', error.status)
+            throw new APIError(error.message, 'groq', error.status)
         }
     }
 }
 
-export default GroqClient;
+export default Groq

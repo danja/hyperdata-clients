@@ -1,4 +1,4 @@
-const client = await createAIClient('openai', {
+const client = await createAPIClient('openai', {
     mcp: {
         resources: {
             'docs': {
@@ -20,9 +20,9 @@ const client = await createAIClient('openai', {
             }
         }
     }
-});
+})
 
 // Use MCP features
-const resource = await client.getResource('docs');
-const result = await client.executeTool('search', { query: 'api' });
-const prompt = await client.renderPrompt('summarize', { text: 'content' });
+const resource = await client.getResource('docs')
+const result = await client.executeTool('search', { query: 'api' })
+const prompt = await client.renderPrompt('summarize', { text: 'content' })

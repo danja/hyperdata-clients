@@ -5,7 +5,7 @@
 @prefix mcp: <http://modelcontextprotocol.io/schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-mcp:AIClient
+mcp:APIClient
     a owl:Class ;
     rdfs:label "AI Client"@en ;
     rdfs:comment "Base client for AI model interactions"@en .
@@ -27,17 +27,17 @@ mcp:Prompt
 
 mcp:hasResource
     a owl:ObjectProperty ;
-    rdfs:domain mcp:AIClient ;
+    rdfs:domain mcp:APIClient ;
     rdfs:range mcp:Resource .
 
 mcp:hasTool
     a owl:ObjectProperty ;
-    rdfs:domain mcp:AIClient ;
+    rdfs:domain mcp:APIClient ;
     rdfs:range mcp:Tool .
 
 mcp:hasPrompt
     a owl:ObjectProperty ;
-    rdfs:domain mcp:AIClient ;
+    rdfs:domain mcp:APIClient ;
     rdfs:range mcp:Prompt .
 
 mcp:uri

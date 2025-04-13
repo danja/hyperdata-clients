@@ -1,6 +1,7 @@
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export default class MCPClient extends AIClient {
+export default class MCPClient extends APIClient {
     constructor(config = {}) {
         super(config)
         this.resources = new Map()
@@ -34,21 +35,21 @@ export default class MCPClient extends AIClient {
 
     async getResource(id) {
         const resource = this.resources.get(id)
-        if (!resource) throw new AIError(`Resource not found: ${id}`, 'mcp', 'RESOURCE_NOT_FOUND')
+        if (!resource) throw new APIError(`Resource not found: ${id}`, 'mcp', 'RESOURCE_NOT_FOUND')
         return resource
     }
 
     async executeTool(id, args) {
         const tool = this.tools.get(id)
-        if (!tool) throw new AIError(`Tool not found: ${id}`, 'mcp', 'TOOL_NOT_FOUND')
-        if (!tool.execute) throw new AIError(`Tool not executable: ${id}`, 'mcp', 'TOOL_NOT_EXECUTABLE')
+        if (!tool) throw new APIError(`Tool not found: ${id}`, 'mcp', 'TOOL_NOT_FOUND')
+        if (!tool.execute) throw new APIError(`Tool not executable: ${id}`, 'mcp', 'TOOL_NOT_EXECUTABLE')
         return tool.execute(args)
     }
 
     async renderPrompt(id, context) {
         const prompt = this.prompts.get(id)
-        if (!prompt) throw new AIError(`Prompt not found: ${id}`, 'mcp', 'PROMPT_NOT_FOUND')
-        if (!prompt.template) throw new AIError(`Invalid prompt template: ${id}`, 'mcp', 'INVALID_PROMPT')
+        if (!prompt) throw new APIError(`Prompt not found: ${id}`, 'mcp', 'PROMPT_NOT_FOUND')
+        if (!prompt.template) throw new APIError(`Invalid prompt template: ${id}`, 'mcp', 'INVALID_PROMPT')
         return prompt.template(context)
     }
 

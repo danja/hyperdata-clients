@@ -42,7 +42,7 @@ export interface Message {
     content: string;
 }
 
-export class AIError extends Error {
+export class APIError extends Error {
     constructor(message: string, provider: string, code: string);
     provider: string;
     code: string;

@@ -1,6 +1,6 @@
 // spec/providers/claude.spec.js
 import { expect } from 'chai';
-import { ClaudeClient } from '../../src/providers/claude.js';
+import { Claude } from '../../src/providers/claude.js';
 
 describe('Claude Client', () => {
     describe('Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('Claude Client', () => {
         let mockResponse;
 
         beforeEach(() => {
-            client = new ClaudeClient({ apiKey: 'test-key' });
+            client = new Claude({ apiKey: 'test-key' });
             mockResponse = {
                 data: {
                     choices: [{
@@ -49,10 +49,10 @@ describe('Claude Client', () => {
                 console.warn('Skipping Claude integration tests - no API key');
                 return;
             }
-            client = new ClaudeClient({ apiKey });
+            client = new Claude({ apiKey });
         });
 
-        it('should perform chat completion', async function() {
+        it('should perform chat completion', async function () {
             if (!process.env.CLAUDE_API_KEY) {
                 this.skip();
                 return;
@@ -61,12 +61,12 @@ describe('Claude Client', () => {
             const response = await client.chat([
                 { role: 'user', content: 'What is 2+2?' }
             ]);
-            
+
             expect(response).to.be.a('string');
             expect(response.toLowerCase()).to.include('4');
         });
 
-        it('should generate embeddings', async function() {
+        it('should generate embeddings', async function () {
             if (!process.env.CLAUDE_API_KEY) {
                 this.skip();
                 return;
@@ -80,7 +80,7 @@ describe('Claude Client', () => {
             });
         });
 
-        it('should handle streaming', async function() {
+        it('should handle streaming', async function () {
             if (!process.env.CLAUDE_API_KEY) {
                 this.skip();
                 return;

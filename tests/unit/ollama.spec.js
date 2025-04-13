@@ -1,6 +1,6 @@
 // spec/providers/ollama.spec.js
 import { expect } from 'chai';
-import { OllamaClient } from '../../src/providers/ollama.js';
+import { Ollama } from '../../src/providers/ollama.js';
 
 describe('Ollama Client', () => {
     describe('Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('Ollama Client', () => {
         let mockOllama;
 
         beforeEach(() => {
-            client = new OllamaClient({ baseUrl: 'http://localhost:11434' });
+            client = new Ollama({ baseUrl: 'http://localhost:11434' });
             mockOllama = {
                 chat: async () => ({ message: { content: 'test response' } }),
                 generate: async () => ({ response: 'test completion' }),
@@ -48,10 +48,10 @@ describe('Ollama Client', () => {
                 console.warn('Skipping Ollama integration tests - service not available');
                 return;
             }
-            client = new OllamaClient({});
+            client = new Ollama({});
         });
 
-        it('should perform chat completion', async function() {
+        it('should perform chat completion', async function () {
             if (!client) {
                 this.skip();
                 return;
@@ -60,21 +60,21 @@ describe('Ollama Client', () => {
             const response = await client.chat([
                 { role: 'user', content: 'What is 2+2?' }
             ], { model: 'llama2' });
-            
+
             expect(response).to.be.a('string');
             expect(response.toLowerCase()).to.include('4');
         });
 
-        it('should generate embeddings', async function() {
+        it('should generate embeddings', async function () {
             if (!client) {
                 this.skip();
                 return;
             }
 
-            const embedding = await client.embedding('Test text', { 
+            const embedding = await client.embedding('Test text', {
                 model: 'nomic-embed-text'
             });
-            
+
             expect(embedding).to.be.an('array');
             expect(embedding).to.have.lengthOf(768); // nomic-embed-text dimension
             embedding.forEach(value => {
@@ -82,7 +82,7 @@ describe('Ollama Client', () => {
             });
         });
 
-        it('should handle streaming', async function() {
+        it('should handle streaming', async function () {
             if (!client) {
                 this.skip();
                 return;
@@ -100,7 +100,7 @@ describe('Ollama Client', () => {
             expect(fullResponse).to.match(/[123]/);
         });
 
-        it('should handle model not found errors', async function() {
+        it('should handle model not found errors', async function () {
             if (!client) {
                 this.skip();
                 return;

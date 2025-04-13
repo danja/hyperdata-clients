@@ -1,7 +1,8 @@
 import { HfInference } from '@huggingface/inference'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class HuggingFaceClient extends AIClient {
+class HuggingFace extends APIClient {
     constructor(config = {}) {
         super(config)
         const apiKey = config.apiKey || process.env.HUGGINGFACE_API_KEY
@@ -27,7 +28,7 @@ export class HuggingFaceClient extends AIClient {
             })
             return response.generated_text
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status)
+            throw new APIError(error.message, 'huggingface', error.status)
         }
     }
 
@@ -44,7 +45,7 @@ export class HuggingFaceClient extends AIClient {
             })
             return response.generated_text
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status)
+            throw new APIError(error.message, 'huggingface', error.status)
         }
     }
 
@@ -57,13 +58,13 @@ export class HuggingFaceClient extends AIClient {
             })
             return response[0]
         } catch (error) {
-            throw new AIError(error.message, 'huggingface', error.status)
+            throw new APIError(error.message, 'huggingface', error.status)
         }
     }
 
     async stream(messages, callback, options = {}) {
-        throw new AIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
+        throw new APIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
     }
 }
 
-export default HuggingFaceClient;
+export default HuggingFace

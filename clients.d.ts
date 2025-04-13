@@ -1,7 +1,7 @@
 // clients.d.ts
 import { AIConfig, Message, MCPResource, MCPTool, MCPPrompt, MCPState } from './index';
 
-export abstract class AIClient {
+export abstract class APIClient {
     constructor(config?: AIConfig);
     abstract chat(messages: Message[], options?: Record<string, any>): Promise<string>;
     abstract complete(prompt: string, options?: Record<string, any>): Promise<string>;
@@ -9,7 +9,7 @@ export abstract class AIClient {
     abstract stream(messages: Message[], callback: (chunk: string) => void, options?: Record<string, any>): Promise<void>;
 }
 
-export class MCPClient extends AIClient {
+export class MCPClient extends APIClient {
     registerResource(id: string, resource: MCPResource): Promise<void>;
     registerTool(id: string, tool: MCPTool): Promise<void>;
     registerPrompt(id: string, prompt: MCPPrompt): Promise<void>;
@@ -19,10 +19,10 @@ export class MCPClient extends AIClient {
     describe(): MCPState;
 }
 
-export function createAIClient(
+export function createAPIClient(
     provider: string,
     config?: AIConfig
-): Promise<AIClient & Partial<MCPClient>>;
+): Promise<APIClient & Partial<MCPClient>>;
 
 // Provider-specific types
 export interface OpenAIOptions {

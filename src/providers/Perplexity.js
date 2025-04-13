@@ -1,7 +1,8 @@
 import OpenAI from 'openai'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class PerplexityClient extends AIClient {
+export class Perplexity extends APIClient {
     constructor(config = {}) {
         super(config)
         const apiKey = config.apiKey || process.env.PERPLEXITY_API_KEY
@@ -28,7 +29,7 @@ export class PerplexityClient extends AIClient {
             })
             return response.choices[0].message.content
         } catch (error) {
-            throw new AIError(error.message, 'perplexity', error.status)
+            throw new APIError(error.message, 'perplexity', error.status)
         }
     }
 
@@ -37,7 +38,7 @@ export class PerplexityClient extends AIClient {
     }
 
     async embedding(text, options = {}) {
-        throw new AIError('Embeddings not supported by Perplexity', 'perplexity', 'UNSUPPORTED_OPERATION')
+        throw new APIError('Embeddings not supported by Perplexity', 'perplexity', 'UNSUPPORTED_OPERATION')
     }
 
     async stream(messages, callback, options = {}) {
@@ -56,9 +57,9 @@ export class PerplexityClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'perplexity', error.status)
+            throw new APIError(error.message, 'perplexity', error.status)
         }
     }
 }
 
-export default PerplexityClient;
+export default Perplexity

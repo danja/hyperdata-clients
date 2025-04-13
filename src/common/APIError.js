@@ -1,10 +1,10 @@
-class AIError extends Error {
+class APIError extends Error {
     constructor(message, provider, code) {
         super(message);
-        this.name = 'AIError';
+        this.name = 'APIError';
         this.provider = provider;
         this.code = code;
     }
 }
 
-export default AIError;
+export default APIError;

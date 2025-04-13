@@ -1,57 +1,66 @@
 
-import OpenAIClient from '../providers/OpenAIClient.js'
-import ClaudeClient from '../providers/Claude.js'
-import OllamaClient from '../providers/OllamaClient.js'
-import MistralClient from '../providers/MistralClient.js'
-import GroqClient from '../providers/GroqClient.js'
-import PerplexityClient from '../providers/PerplexityClient.js'
-import HuggingFaceClient from '../providers/HuggingFaceClient.js'
-import MCPClient from '../providers/MCPClient.js'
+import OpenAIClient from '../providers/OpenAI.js'
+import Claude from '../providers/Claude.js'
+import Ollama from '../providers/Ollama.js'
+import Mistral from '../providers/Mistral.js'
+import Groqq from '../providers/Groqq.js'
+import Perplexity from '../providers/Perplexity.js'
+import HuggingFace from '../providers/HuggingFace.js'
+import MCPClient from '../providers/MCP.js'
 import KeyManager from '../common/KeyManager.js'
 
-const PROVIDERS = {
-    openai: OpenAIClient,
-    claude: ClaudeClient,
-    ollama: OllamaClient,
-    mistral: MistralClient,
-    groq: GroqClient,
-    perplexity: PerplexityClient,
-    huggingface: HuggingFaceClient
-}
+class ClientFactory {
 
-export async function createAIClient(provider, config = {}) {
-    const ClientClass = PROVIDERS[provider.toLowerCase()]
-    if (!ClientClass) {
-        throw new Error(`Unknown AI provider: ${provider}`)
+    static PROVIDERS = {
+        openai: OpenAIClient,
+        claude: Claude,
+        ollama: Ollama,
+        mistral: Mistral,
+        groq: Groqq,
+        perplexity: Perplexity,
+        huggingface: HuggingFace
     }
 
-    // Validate and get API key
-    const key = KeyManager.getKey(config, provider)
+    static async createAPIClient(provider, config = {}) {
+        const ClientClass = ClientFactory.PROVIDERS[provider.toLowerCase()]
+        if (!ClientClass) {
+            throw new Error(`Unknown AI provider: ${provider}`)
+        }
 
-    // Create base client
-    const client = new ClientClass({ ...config, apiKey: key })
+        // Validate and get API key
+        const key = KeyManager.getKey(config, provider)
 
-    // Wrap with MCP if requested
-    if (config.mcp) {
-        const mcpClient = new MCPClient(config.mcp)
+        // Create base client
+        const client = new ClientClass({ ...config, apiKey: key })
+
+        // Wrap with MCP if requested
+        if (config.mcp) {
+            return ClientFactory.createMCPClient(config.mcp)
+        }
+        return client
+    }
+
+
+    static async createMCPClient(mcpConfig) {
+        const mcpClient = new MCPClient(mcpConfig)
 
         // Register MCP resources if provided
-        if (config.mcp.resources) {
-            for (const [id, resource] of Object.entries(config.mcp.resources)) {
+        if (mcpConfig.resources) {
+            for (const [id, resource] of Object.entries(mcpConfig.resources)) {
                 await mcpClient.registerResource(id, resource)
             }
         }
 
         // Register MCP tools if provided
-        if (config.mcp.tools) {
-            for (const [id, tool] of Object.entries(config.mcp.tools)) {
+        if (mcpConfig.tools) {
+            for (const [id, tool] of Object.entries(mcpConfig.tools)) {
                 await mcpClient.registerTool(id, tool)
             }
         }
 
         // Register MCP prompts if provided
-        if (config.mcp.prompts) {
-            for (const [id, prompt] of Object.entries(config.mcp.prompts)) {
+        if (mcpConfig.prompts) {
+            for (const [id, prompt] of Object.entries(mcpConfig.prompts)) {
                 await mcpClient.registerPrompt(id, prompt)
             }
         }
@@ -66,6 +75,6 @@ export async function createAIClient(provider, config = {}) {
             }
         })
     }
-
-    return client
 }
+
+export default ClientFactory

@@ -11,7 +11,7 @@
     "rp": "repomix -c repomix.config.json . "
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.17.1",
+    "@anthropic-ai/sdk": "^0.17.2",
     "@huggingface/inference": "^2.6.4",
     "@mistralai/mistralai": "^0.0.10",
     "dotenv": "^16.4.1",

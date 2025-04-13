@@ -1,8 +1,9 @@
 // providers/openai.js
 import OpenAI from 'openai'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class OpenAIClient extends AIClient {
+export class OpenAIClient extends APIClient {
     constructor(config = {}) {
         super(config)
         this.client = new OpenAI({
@@ -26,7 +27,7 @@ export class OpenAIClient extends AIClient {
             })
             return response.choices[0].message.content
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status)
+            throw new APIError(error.message, 'openai', error.status)
         }
     }
 
@@ -41,7 +42,7 @@ export class OpenAIClient extends AIClient {
             })
             return response.choices[0].text
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status)
+            throw new APIError(error.message, 'openai', error.status)
         }
     }
 
@@ -54,7 +55,7 @@ export class OpenAIClient extends AIClient {
             })
             return response.data[0].embedding
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status)
+            throw new APIError(error.message, 'openai', error.status)
         }
     }
 
@@ -74,9 +75,9 @@ export class OpenAIClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'openai', error.status)
+            throw new APIError(error.message, 'openai', error.status)
         }
     }
 }
 
-export default OpenAIClient;
+export default OpenAIClient

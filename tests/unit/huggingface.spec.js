@@ -1,6 +1,6 @@
 // spec/providers/huggingface.spec.js
 import { expect } from 'chai';
-import { HuggingFaceClient } from '../../src/providers/huggingface.js';
+import { HuggingFace } from '../../src/providers/huggingface.js';
 
 describe('HuggingFace Client', () => {
     describe('Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('HuggingFace Client', () => {
         let mockResponse;
 
         beforeEach(() => {
-            client = new HuggingFaceClient({ apiKey: 'test-key' });
+            client = new HuggingFace({ apiKey: 'test-key' });
             mockResponse = {
                 generated_text: 'test response',
                 embeddings: [[0.1, 0.2, 0.3]]
@@ -44,10 +44,10 @@ describe('HuggingFace Client', () => {
                 console.warn('Skipping HuggingFace integration tests - no API key');
                 return;
             }
-            client = new HuggingFaceClient({ apiKey });
+            client = new HuggingFace({ apiKey });
         });
 
-        it('should perform text completion', async function() {
+        it('should perform text completion', async function () {
             if (!process.env.HUGGINGFACE_API_KEY) {
                 this.skip();
                 return;
@@ -58,7 +58,7 @@ describe('HuggingFace Client', () => {
             expect(response.toLowerCase()).to.include('paris');
         });
 
-        it('should generate embeddings', async function() {
+        it('should generate embeddings', async function () {
             if (!process.env.HUGGINGFACE_API_KEY) {
                 this.skip();
                 return;
@@ -67,7 +67,7 @@ describe('HuggingFace Client', () => {
             const embedding = await client.embedding('Test text', {
                 model: 'sentence-transformers/all-MiniLM-L6-v2'
             });
-            
+
             expect(embedding).to.be.an('array');
             expect(embedding.length).to.equal(384); // MiniLM dimension
             embedding.forEach(value => {
@@ -75,7 +75,7 @@ describe('HuggingFace Client', () => {
             });
         });
 
-        it('should handle chat-like interactions', async function() {
+        it('should handle chat-like interactions', async function () {
             if (!process.env.HUGGINGFACE_API_KEY) {
                 this.skip();
                 return;
@@ -84,12 +84,12 @@ describe('HuggingFace Client', () => {
             const response = await client.chat([
                 { role: 'user', content: 'What is machine learning?' }
             ]);
-            
+
             expect(response).to.be.a('string');
             expect(response.length).to.be.greaterThan(20);
         });
 
-        it('should handle model-specific parameters', async function() {
+        it('should handle model-specific parameters', async function () {
             if (!process.env.HUGGINGFACE_API_KEY) {
                 this.skip();
                 return;

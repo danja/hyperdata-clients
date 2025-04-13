@@ -11,9 +11,9 @@ npm install ai-client-library
 ## Basic Usage
 
 ```javascript
-import { createAIClient } from 'ai-client-library';
+import { createAPIClient } from 'ai-client-library';
 
-const client = await createAIClient('openai', {
+const client = await createAPIClient('openai', {
     apiKey: 'your-api-key',
     mcp: {
         resources: {
@@ -75,7 +75,7 @@ await client.registerPrompt('summarize', {
 ## State Persistence
 
 ```javascript
-const client = await createAIClient('openai', {
+const client = await createAPIClient('openai', {
     mcp: {
         stateFile: 'mcp-state.json',
         onStateChange: async (state) => {
@@ -87,7 +87,7 @@ const client = await createAIClient('openai', {
 
 ## Error Handling
 
-The library provides structured error handling through the `AIError` class:
+The library provides structured error handling through the `APIError` class:
 
 ```javascript
 try {

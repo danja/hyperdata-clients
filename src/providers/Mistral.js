@@ -1,7 +1,8 @@
 import MistralClient from '@mistralai/mistralai'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class MistralClient extends AIClient {
+export class Mistral extends APIClient {
     constructor(config = {}) {
         super(config)
         const apiKey = config.apiKey || process.env.MISTRAL_API_KEY
@@ -10,7 +11,7 @@ export class MistralClient extends AIClient {
             throw new Error('Mistral API key is required. Provide it in constructor or set MISTRAL_API_KEY environment variable.')
         }
 
-        this.client = new MistralClient({
+        this.client = new Mistral({
             apiKey,
             ...config.clientOptions
         })
@@ -27,7 +28,7 @@ export class MistralClient extends AIClient {
             })
             return response.choices[0].message.content
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new APIError(error.message, 'mistral', error.status)
         }
     }
 
@@ -44,7 +45,7 @@ export class MistralClient extends AIClient {
             })
             return response.data[0].embedding
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new APIError(error.message, 'mistral', error.status)
         }
     }
 
@@ -63,9 +64,9 @@ export class MistralClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'mistral', error.status)
+            throw new APIError(error.message, 'mistral', error.status)
         }
     }
 }
 
-export default MistralClient;
+export default Mistral

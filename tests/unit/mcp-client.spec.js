@@ -1,7 +1,7 @@
 // spec/mcp/mcp-client.spec.js
 import { expect } from 'chai';
 import { MCPClient } from '../../src/mcp/mcp-client.js';
-import { AIError } from '../../src/base-client.js';
+import { APIError } from '../../src/base-client.js';
 
 describe('MCP Client', () => {
     let client;
@@ -30,7 +30,7 @@ describe('MCP Client', () => {
 
         it('should throw on missing resource', async () => {
             await expect(client.getResource('nonexistent'))
-                .to.be.rejectedWith(AIError)
+                .to.be.rejectedWith(APIError)
                 .and.have.property('code', 'RESOURCE_NOT_FOUND');
         });
     });
@@ -51,7 +51,7 @@ describe('MCP Client', () => {
         it('should throw on non-executable tool', async () => {
             await client.registerTool('broken', { name: 'Broken Tool' });
             await expect(client.executeTool('broken'))
-                .to.be.rejectedWith(AIError)
+                .to.be.rejectedWith(APIError)
                 .and.have.property('code', 'TOOL_NOT_EXECUTABLE');
         });
     });
@@ -71,7 +71,7 @@ describe('MCP Client', () => {
         it('should throw on invalid prompt', async () => {
             await client.registerPrompt('invalid', { name: 'Invalid Prompt' });
             await expect(client.renderPrompt('invalid'))
-                .to.be.rejectedWith(AIError)
+                .to.be.rejectedWith(APIError)
                 .and.have.property('code', 'INVALID_PROMPT');
         });
     });
@@ -83,11 +83,11 @@ describe('MCP Client', () => {
             await client.registerPrompt('prompt1', { name: 'Prompt 1', description: 'Test prompt' });
 
             const description = client.describe();
-            
+
             expect(description.resources).to.have.lengthOf(1);
             expect(description.tools).to.have.lengthOf(1);
             expect(description.prompts).to.have.lengthOf(1);
-            
+
             expect(description.resources[0].id).to.equal('res1');
             expect(description.tools[0].name).to.equal('Tool 1');
             expect(description.prompts[0].name).to.equal('Prompt 1');

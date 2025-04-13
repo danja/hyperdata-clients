@@ -1,7 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class ClaudeClient extends AIClient {
+export class Claude extends APIClient {
     constructor(config = {}) {
         super(config)
         const apiKey = config.apiKey || process.env.CLAUDE_API_KEY
@@ -27,7 +28,7 @@ export class ClaudeClient extends AIClient {
             })
             return response.content[0].text
         } catch (error) {
-            throw new AIError(error.message, 'claude', error.status)
+            throw new APIError(error.message, 'claude', error.status)
         }
     }
 
@@ -44,7 +45,7 @@ export class ClaudeClient extends AIClient {
             })
             return response.embeddings[0]
         } catch (error) {
-            throw new AIError(error.message, 'claude', error.status)
+            throw new APIError(error.message, 'claude', error.status)
         }
     }
 
@@ -64,9 +65,9 @@ export class ClaudeClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'claude', error.status)
+            throw new APIError(error.message, 'claude', error.status)
         }
     }
 }
 
-export default ClaudeClient;
+export default Claude

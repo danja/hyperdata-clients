@@ -1,7 +1,8 @@
 import ollama from 'ollama'
-import { AIClient, AIError } from '../common/AIClient.js'
+import APIClient from '../common/APIClient.js'
+import APIError from '../common/APIError.js'
 
-export class OllamaClient extends AIClient {
+export class Ollama extends APIClient {
     constructor(config = {}) {
         super(config)
         this.baseUrl = config.baseUrl || process.env.OLLAMA_HOST || 'http://localhost:11434'
@@ -16,7 +17,7 @@ export class OllamaClient extends AIClient {
             }, { baseUrl: this.baseUrl })
             return response.message.content
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code)
+            throw new APIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -29,7 +30,7 @@ export class OllamaClient extends AIClient {
             }, { baseUrl: this.baseUrl })
             return response.response
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code)
+            throw new APIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -42,7 +43,7 @@ export class OllamaClient extends AIClient {
             }, { baseUrl: this.baseUrl })
             return response.embedding
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code)
+            throw new APIError(error.message, 'ollama', error.code)
         }
     }
 
@@ -60,9 +61,9 @@ export class OllamaClient extends AIClient {
                 if (content) callback(content)
             }
         } catch (error) {
-            throw new AIError(error.message, 'ollama', error.code)
+            throw new APIError(error.message, 'ollama', error.code)
         }
     }
 }
 
-export default OllamaClient;
+export default Ollama
