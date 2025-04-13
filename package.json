@@ -8,7 +8,8 @@
     "coverage": "NODE_ENV=test c8 npm test",
     "test": "jasmine --config=jasmine.json --reporter=tests/helpers/reporter.js",
     "docs": "jsdoc -c jsdoc.json",
-    "rp": "repomix -c repomix.config.json . "
+    "rp": "repomix -c repomix.config.json . ",
+    "ask": "node examples/minimal.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.17.2",
