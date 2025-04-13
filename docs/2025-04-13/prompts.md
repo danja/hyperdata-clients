@@ -1,0 +1,1 @@
+I would like another codebase to use this as a lib and use it to call api clients. What does the developer of the other codebase need to know? Please render all information as complete, individual artifacts. Include mermaid diagrams and complete source code as appropriate, as individual, complete artifacts
