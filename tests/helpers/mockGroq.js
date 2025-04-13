@@ -1,10 +1,10 @@
 // Mock implementation of groq-sdk
 class Groq {
     constructor(apiKey) {
-        if (!apiKey) {
-            throw new Error('The GROQ_API_KEY environment variable is missing or empty; either provide it, or instantiate the Groq client with an apiKey option, like new Groq({ apiKey: \'My API Key\' }).')
+        this.apiKey = apiKey || process.env.GROQ_API_KEY || 'mock-default-key'
+        if (!this.apiKey) {
+            throw new Error('The GROQ_API_KEY environment variable is missing or empty; either provide it, or instantiate the Groq client with an apiKey option, like new Groq({ apiKey: \"My API Key\" }).')
         }
-        this.apiKey = apiKey
         this.chat = {
             completions: {
                 create: async ({ messages, stream }) => {

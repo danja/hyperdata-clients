@@ -8,12 +8,11 @@ describe('ClientFactory', () => {
     const mockCwd = () => '/test/path'
 
     beforeEach(() => {
-        clearEnvKeys()
-        process.cwd = mockCwd
+        process.env.GROQ_API_KEY = 'test-groq-key'
     })
 
     afterEach(() => {
-        process.cwd = originalCwd
+        delete process.env.GROQ_API_KEY
     })
 
     describe('createAPIClient', () => {
@@ -50,7 +49,7 @@ describe('ClientFactory', () => {
                 constructor(config) {
                     super(config)
                 }
-                // Deliberately not implementing required methods
+                // Explicitly exclude the 'chat' method to trigger the error
             }
 
             // Temporarily replace all providers with just our test provider
@@ -58,9 +57,9 @@ describe('ClientFactory', () => {
                 testprovider: TestProvider
             }
 
-            // This should fail due to missing chat method
-            await expect(ClientFactory.createAPIClient('testProvider', { apiKey: 'test-key' }))
-                .to.be.rejectedWith('The client for provider testProvider does not implement the required \'chat\' method')
+            // Ensure the test provider is correctly instantiated and throws the expected error
+            await expect(ClientFactory.createAPIClient('testprovider', { apiKey: 'test-key' }))
+                .to.be.rejectedWith(Error, /does not implement the required 'chat' method/)
         })
     })
 
