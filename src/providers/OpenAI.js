@@ -19,7 +19,7 @@ export class OpenAIClient extends APIClient {
     async chat(messages, options = {}) {
         try {
             const response = await this.client.chat.completions.create({
-                model: options.model || 'gpt-4-turbo-preview',
+                model: options.model || 'gpt-4o-mini',
                 messages,
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
