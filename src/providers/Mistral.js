@@ -1,4 +1,4 @@
-import MistralClient from '@mistralai/mistralai'
+import { Mistral as MistralClient } from '@mistralai/mistralai';
 import APIClient from '../common/APIClient.js'
 import APIError from '../common/APIError.js'
 
@@ -11,24 +11,25 @@ export class Mistral extends APIClient {
             throw new Error('Mistral API key is required. Provide it in constructor or set MISTRAL_API_KEY environment variable.')
         }
 
-        this.client = new Mistral({
+        // Fix recursive instantiation by using the correct external MistralClient class
+        this.client = new MistralClient({
             apiKey,
             ...config.clientOptions
-        })
+        });
     }
 
     async chat(messages, options = {}) {
         try {
-            const response = await this.client.chat.create({
+            const response = await this.client.chat.complete({
                 model: options.model || 'mistral-tiny',
                 messages,
                 maxTokens: options.maxTokens,
                 temperature: options.temperature || 0.7,
                 ...options
-            })
-            return response.choices[0].message.content
+            });
+            return response.choices[0].message.content;
         } catch (error) {
-            throw new APIError(error.message, 'mistral', error.status)
+            throw new APIError(error.message, 'mistral', error.status);
         }
     }
 

@@ -11,7 +11,9 @@ const prompt = 'What is your name, and which model are you?'
 console.log(prompt)
 
 try {
-    const client = await ClientFactory.createAPIClient('ollama', { apiKey: 'NO_KEY_REQUIRED', model: 'qwen2:1.5b' })
+
+    const client = await ClientFactory.createAPIClient('mistral', { model: 'open-codestral-mamba', apiKey: process.env.MISTRAL_API_KEY })
+
     const response = await client.chat([
         { role: 'user', content: prompt }
     ])
