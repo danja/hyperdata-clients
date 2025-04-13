@@ -1,13 +1,13 @@
 
-import { OpenAIClient } from '../providers/OpenAIClient.js'
-import { ClaudeClient } from '../providers/ClaudeClient.js'
-import { OllamaClient } from '../providers/OllamaClient.js'
-import { MistralClient } from '../providers/MistralClient.js'
-import { GroqClient } from '../providers/GroqClient.js'
-import { PerplexityClient } from '../providers/PerplexityClient.js'
-import { HuggingFaceClient } from '../providers/HuggingFaceClient.js'
-import { MCPClient } from '../providers/MCPClient.js'
-import { KeyManager } from '../common/KeyManager.js'
+import OpenAIClient from '../providers/OpenAIClient.js'
+import ClaudeClient from '../providers/Claude.js'
+import OllamaClient from '../providers/OllamaClient.js'
+import MistralClient from '../providers/MistralClient.js'
+import GroqClient from '../providers/GroqClient.js'
+import PerplexityClient from '../providers/PerplexityClient.js'
+import HuggingFaceClient from '../providers/HuggingFaceClient.js'
+import MCPClient from '../providers/MCPClient.js'
+import KeyManager from '../common/KeyManager.js'
 
 const PROVIDERS = {
     openai: OpenAIClient,

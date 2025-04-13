@@ -1,4 +1,4 @@
-export class AIClient {
+class AIClient {
     constructor(config = {}) {
         if (this.constructor === AIClient) {
             throw new Error('Cannot instantiate abstract class');
@@ -23,11 +23,4 @@ export class AIClient {
     }
 }
 
-export class AIError extends Error {
-    constructor(message, provider, code) {
-        super(message);
-        this.name = 'AIError';
-        this.provider = provider;
-        this.code = code;
-    }
-}
+export default AIClient;
