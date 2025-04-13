@@ -20,8 +20,8 @@ Using mistral key from: .env file
 Working for me against :
 
 - Ollama (local)
-- Mistral (free & speedy)
-- OpenAI
+- Mistral (free & speedy, needs API key)
+- OpenAI (requires $s and API key)
 
 Various other clients sketched out, will likely need tweaking.
 
@@ -62,8 +62,8 @@ Really minimal for testing purposes :
 # Basic usage
 npm run ask [provider] [options] "your prompt"
 
-# or
-
+# or more directly
+node examples/minimal.js [provider] [options] "your prompt"
 
 # Mistral
 npm run ask mistral --model 'open-codestral-mamba' 'tell me about yourself'
@@ -71,6 +71,8 @@ npm run ask mistral --model 'open-codestral-mamba' 'tell me about yourself'
 # Example with Ollama running locally, it'll default model to qwen2:1.5b
 npm run ask ollama 'how are you?'
 
+# requires an API key
+node examples/minimal.js openai 'what are you?'
 ```
 
 MIT License
