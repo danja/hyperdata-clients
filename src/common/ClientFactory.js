@@ -1,4 +1,3 @@
-
 import OpenAIClient from '../providers/OpenAI.js'
 import Claude from '../providers/Claude.js'
 import Ollama from '../providers/Ollama.js'
@@ -33,10 +32,11 @@ class ClientFactory {
         // Create base client
         const client = new ClientClass({ ...config, apiKey: key })
 
-        // Wrap with MCP if requested
-        if (config.mcp) {
-            return ClientFactory.createMCPClient(config.mcp)
+        // Ensure the client has the required methods
+        if (typeof client.chat !== 'function') {
+            throw new Error(`The client for provider ${provider} does not implement the required 'chat' method.`)
         }
+
         return client
     }
 
