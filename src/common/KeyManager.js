@@ -31,7 +31,7 @@ class KeyManager {
         if (!key) {
             throw new Error(`${provider} API key is required`)
         }
-
+        return // below maybe not a good idea
         const patterns = {
             ollama: /^NO_KEY_REQUIRED$/i,
             openai: /^sk-(?:proj-)?[a-zA-Z0-9_-]+$/,
