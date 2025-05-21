@@ -1,14 +1,57 @@
 {
   "name": "hyperdata-clients",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "type": "module",
+  "vitest": {
+    "environment": "node",
+    "coverage": {
+      "provider": "v8",
+      "reporter": [
+        "text",
+        "json",
+        "html"
+      ]
+    }
+  },
   "description": "Unified client library for multiple AI providers",
   "main": "src/factory.js",
+  "files": [
+    "src/**/*.js",
+    "types/**/*.d.ts"
+  ],
+  "exports": {
+    ".": "./src/factory.js",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "ai",
+    "api",
+    "client",
+    "llm",
+    "openai",
+    "mistral",
+    "claude",
+    "groq",
+    "huggingface",
+    "ollama"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danja/hyperdata-clients.git"
+  },
+  "author": "Danny Ayers <danny.ayers@gmail.com> (https://danny.ayers.name)",
+  "license": "MIT",
+  "homepage": "https://github.com/danja/hyperdata-clients#readme",
+  "bugs": {
+    "url": "https://github.com/danja/hyperdata-clients/issues"
+  },
   "scripts": {
-    "coverage": "NODE_ENV=test c8 npm test",
-    "test": "jasmine --config=jasmine.json --reporter=tests/helpers/reporter.js",
+    "test": "vitest --run",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
     "docs": "jsdoc -c jsdoc.json",
-    "rp": "repomix -c repomix.config.json . ",
+    "rp": "repomix -c repomix.config.json .",
     "ask": "node examples/minimal.js"
   },
   "dependencies": {
@@ -22,12 +65,13 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^3.1.4",
+    "@vitest/ui": "^3.1.4",
     "c8": "^9.1.0",
     "chai": "^5.2.0",
     "chai-as-promised": "^8.0.1",
-    "jasmine": "^5.6.0",
-    "jasmine-spec-reporter": "^7.0.0",
-    "jsdoc": "^4.0.4"
+    "jsdoc": "^4.0.4",
+    "vitest": "^3.1.4"
   },
   "engines": {
     "node": ">=18.0.0"

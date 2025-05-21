@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { expectError } from '../helpers/testHelper.js'
+import { describe, it, expect } from 'vitest'
 import APIError from '../../src/common/APIError.js'
 
 describe('APIError', () => {
@@ -10,25 +9,24 @@ describe('APIError', () => {
 
         const error = new APIError(message, provider, code)
 
-        expectError(error, {
-            message: message,
-            provider: provider,
-            code: code
-        })
-        expect(error.name).to.equal('APIError')
+        expect(error).toBeInstanceOf(APIError)
+        expect(error.message).toBe(message)
+        expect(error.provider).toBe(provider)
+        expect(error.code).toBe(code)
+        expect(error.name).toBe('APIError')
     })
 
     it('should work with partial properties', () => {
         const error = new APIError('Test message')
 
-        expect(error.message).to.equal('Test message')
-        expect(error.provider).to.be.undefined
-        expect(error.code).to.be.undefined
+        expect(error.message).toBe('Test message')
+        expect(error.provider).toBeUndefined()
+        expect(error.code).toBeUndefined()
     })
 
     it('should be instanceof Error', () => {
         const error = new APIError('Test')
-        expect(error).to.be.instanceOf(Error)
+        expect(error).toBeInstanceOf(Error)
     })
 
     it('should be catchable as Error', () => {
@@ -38,7 +36,7 @@ describe('APIError', () => {
         } catch (e) {
             caught = e
         }
-        expect(caught).to.be.instanceOf(Error)
-        expect(caught).to.be.instanceOf(APIError)
+        expect(caught).toBeInstanceOf(Error)
+        expect(caught).toBeInstanceOf(APIError)
     })
 })

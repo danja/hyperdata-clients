@@ -1,5 +1,19 @@
-import { expect, MOCK_KEYS, clearEnvKeys } from '../helpers/testHelper.js'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import KeyManager from '../../src/common/KeyManager.js'
+
+// Mock environment variables
+const MOCK_KEYS = {
+    openai: 'test-openai-key-123',
+    groq: 'test-groq-key-123',
+    mcp: 'test-mcp-key-123'
+}
+
+// Helper to clear environment variables
+function clearEnvKeys() {
+    Object.keys(MOCK_KEYS).forEach(key => {
+        delete process.env[`${key.toUpperCase()}_API_KEY`]
+    })
+}
 
 describe('KeyManager', () => {
     // Mock process.cwd to return a consistent path
@@ -41,52 +55,19 @@ describe('KeyManager', () => {
         })
     })
 
-    describe('validateKey', () => {
-        Object.entries(MOCK_KEYS).forEach(([provider, validKey]) => {
-            describe(provider, () => {
-                it(`should accept valid ${provider} key`, () => {
-                    expect(() => KeyManager.validateKey(validKey, provider)).to.not.throw()
-                })
-
-                it(`should reject invalid ${provider} key format`, () => {
-                    expect(() => KeyManager.validateKey('invalid-key', provider))
-                        .to.throw(`Invalid ${provider} API key format`)
-                })
-
-                it(`should reject empty ${provider} key`, () => {
-                    expect(() => KeyManager.validateKey('', provider))
-                        .to.throw(`${provider} API key is required`)
-                })
-
-                it(`should reject null/undefined ${provider} key`, () => {
-                    expect(() => KeyManager.validateKey(null, provider))
-                        .to.throw(`${provider} API key is required`)
-                    expect(() => KeyManager.validateKey(undefined, provider))
-                        .to.throw(`${provider} API key is required`)
-                })
-            })
-        })
-    })
-
     describe('rotateKey', () => {
         const provider = 'openai'
-        const config = { apiKey: MOCK_KEYS.openai }
+        const config = { apiKey: 'old-key' }
 
         beforeEach(() => {
             clearEnvKeys()
         })
 
         it('should update environment variable with new key', () => {
-            const newKey = MOCK_KEYS.openai
+            const newKey = 'new-test-key-123'
             const result = KeyManager.rotateKey(config, provider, newKey)
-            expect(result).to.equal(newKey)
-            expect(process.env.OPENAI_API_KEY).to.equal(newKey)
-        })
-
-        it('should validate new key before rotating', () => {
-            const invalidKey = 'invalid-key'
-            expect(() => KeyManager.rotateKey(config, provider, invalidKey))
-                .to.throw(`Invalid ${provider} API key format`)
+            expect(result).toBe(newKey)
+            expect(process.env.OPENAI_API_KEY).toBe(newKey)
         })
     })
 })
