@@ -15,6 +15,8 @@ Using mistral key from: .env file
 ...it's uncertain how many would be needed to change a lightbulb...
 ```
 
+import { OpenAI, Claude, KeyManager } from 'hyperdata-clients';
+
 ## Status: 2025-04-13
 
 Working for me against :
