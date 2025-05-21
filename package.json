@@ -15,6 +15,7 @@
   },
   "description": "Unified client library for multiple AI providers",
   "main": "src/factory.js",
+  "types": "types/clients.d.ts",
   "files": [
     "src/**/*.js",
     "types/**/*.d.ts"

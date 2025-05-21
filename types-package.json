@@ -1,9 +1,0 @@
-// package.json
-{
-  "name": "@types/ai-client-library",
-  "version": "1.0.0",
-  "types": "index.d.ts",
-  "dependencies": {
-    "@types/node": "^20.0.0"
-  }
-}
