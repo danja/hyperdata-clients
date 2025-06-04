@@ -1,23 +1,58 @@
-// Barrel file for hyperdata-clients
-// Re-export all modules from subdirectories
+// Improved barrel file for hyperdata-clients
+// This file exports all modules with appropriate named exports
 
-// Common utilities
-export * from './common/APIClient.js'
-export * from './common/APIError.js'
-export * from './common/ClientFactory.js'
-export * from './common/KeyManager.js'
+// Common utilities as named exports
+import APIClient from './common/APIClient.js';
+import APIError from './common/APIError.js';
+import ClientFactory from './common/ClientFactory.js';
+import KeyManager from './common/KeyManager.js';
 
-// Providers
-export * from './providers/Claude.js'
-export * from './providers/Groqq.js'
-export * from './providers/HuggingFace.js'
-export * from './providers/MCP.js'
-export * from './providers/Mistral.js'
-export * from './providers/Ollama.js'
-export * from './providers/OpenAI.js'
-export * from './providers/Perplexity.js'
+// Provider classes
+import Claude from './providers/Claude.js';
+import Groqq from './providers/Groqq.js';
+import HuggingFace from './providers/HuggingFace.js';
+import MCP from './providers/MCP.js';
+import Mistral from './providers/Mistral.js';
+import Ollama from './providers/Ollama.js';
+import OpenAIClient from './providers/OpenAI.js';
+import Perplexity from './providers/Perplexity.js';
 
-// Pending - Rate Limiting
-export * from './pending/ratelimiting/advanced-rate-limiter.js'
-export * from './pending/ratelimiting/basic-rate-limited-client.js'
-export * from './pending/ratelimiting/batch-processor.js' 
+// Export all as named exports
+export {
+    // Common utilities
+    APIClient,
+    APIError,
+    ClientFactory,
+    KeyManager,
+
+    // Provider implementations
+    Claude,
+    Groqq,
+    HuggingFace,
+    MCP,
+    Mistral,
+    Ollama,
+    OpenAIClient as OpenAI, // Renamed to more intuitive name
+    Perplexity
+};
+
+// Also export a default object for CommonJS compatibility
+export default {
+    APIClient,
+    APIError,
+    ClientFactory,
+    KeyManager,
+    Claude,
+    Groqq,
+    HuggingFace,
+    MCP,
+    Mistral,
+    Ollama,
+    OpenAI: OpenAIClient,
+    Perplexity
+};
+
+// Convenience function to create a client
+export const createClient = async (provider, config) => {
+    return ClientFactory.createAPIClient(provider, config);
+};
