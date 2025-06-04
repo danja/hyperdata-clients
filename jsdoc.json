@@ -1,0 +1,41 @@
+{
+  "source": {
+    "include": ["src"],
+    "includePattern": "\\.(jsx|js|ts|tsx)$"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "opts": {
+    "destination": "docs/jsdoc/",
+    "recurse": true,
+    "readme": "README.md",
+    "template": "node_modules/docdash"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true,
+      "includeDate": false,
+      "useLongnameInNav": false
+    },
+    "docdash": {
+      "static": true,
+      "sort": true,
+      "search": true,
+      "collapse": true,
+      "typedefs": true,
+      "removeQuotes": "none",
+      "menu": {
+        "Github": {
+          "href": "https://github.com/yourusername/hyperdata-clients",
+          "target": "_blank"
+        }
+      }
+    }
+  },
+  "markdown": {
+    "idInHeadings": true
+  }
+}

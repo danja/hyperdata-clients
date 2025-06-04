@@ -51,7 +51,7 @@
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "docs": "jsdoc -c jsdoc.json",
+    "docs": "mkdir -p docs/jsdoc && jsdoc -c jsdoc.json",
     "rp": "repomix -c repomix.config.json .",
     "ask": "node examples/minimal.js"
   },
@@ -71,6 +71,7 @@
     "c8": "^9.1.0",
     "chai": "^5.2.0",
     "chai-as-promised": "^8.0.1",
+    "docdash": "^2.0.2",
     "jsdoc": "^4.0.4",
     "vitest": "^3.1.4"
   },

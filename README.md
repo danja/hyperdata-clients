@@ -17,7 +17,7 @@ Using mistral key from: .env file
 
 import { OpenAI, Claude, KeyManager } from 'hyperdata-clients';
 
-## Status: 2025-04-13
+## Status: 2025-06-04 doc fixes, barrel file, version bump.
 
 Working for me against :
 
@@ -35,7 +35,7 @@ There's a very basic CLI for checking the thing (see below), also runnable hardc
 node examples/MistralMinimal.js
 ```
 
-Jasmine tests currently all broken after an afternoon getting it to work...
+
 
 ## Features
 
@@ -45,6 +45,15 @@ Jasmine tests currently all broken after an afternoon getting it to work...
 - Consistent interface across providers
 - Type definitions included
 - Extensive test coverage
+
+### Providers
+- Ollama 
+- OpenAI
+- Claude 
+- Mistral
+- Groq
+- Perplexity
+- HuggingFace
 
 ## Installation
 
@@ -76,5 +85,51 @@ npm run ask ollama 'how are you?'
 # requires an API key
 node examples/minimal.js openai 'what are you?'
 ```
+
+## Documentation
+
+Comprehensive API documentation is available in the `docs` directory. To generate or update the documentation:
+
+```sh
+# Install dependencies (if not already installed)
+npm install
+
+# Generate documentation
+npm run docs
+
+# The documentation will be available in docs/jsdoc/index.html
+```
+
+The documentation includes:
+- API reference for all components
+- Getting started guide
+- Code examples
+- Configuration options
+
+## Testing
+
+The project includes an extensive test suite to ensure reliability and compatibility across different providers. To run the tests:
+
+```sh
+# Run all tests
+npm test
+
+# Run tests with coverage report
+npm run coverage
+
+# Run tests in watch mode during development
+npm run test:ui
+```
+
+### Test Coverage
+
+Test coverage reports are generated in the `coverage` directory after running the coverage command. This includes:
+- Line coverage
+- Function coverage
+- Branch coverage
+
+## Contributing
+
+Contributions are welcome! Please ensure all tests pass and add new tests for any new features or bug fixes.
 
 MIT License
