@@ -1,6 +1,6 @@
 {
   "name": "hyperdata-clients",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "type": "module",
   "vitest": {
     "environment": "node",

@@ -1,5 +1,7 @@
 # hyperdata-clients
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/danja/hyperdata-clients)
+
 Yet another node API client library for interacting with AI providers using a common interface.
 
 _I wanted my own so I knew how it worked_
@@ -85,6 +87,10 @@ npm run ask ollama 'how are you?'
 # requires an API key
 node examples/minimal.js openai 'what are you?'
 ```
+
+## Architecture
+
+![docs/images/structure.png]
 
 ## Documentation
 
