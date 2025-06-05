@@ -21,7 +21,7 @@ class KeyManager {
         }
 
         // Debug logging
-        console.debug(`Using ${provider} key from: ${envKey ? '.env file' : 'config object'}`)
+        //  console.debug(`Using ${provider} key from: ${envKey ? '.env file' : 'config object'}`)
 
         this.validateKey(key, provider)
         return key
