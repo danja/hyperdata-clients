@@ -52,6 +52,11 @@ try {
         model: modelName
     }
 
+    console.log(`Using :
+        apiName : ${apiName}
+        modelName : ${modelName}
+        clientOptions : ${JSON.stringify(clientOptions)}
+        userPrompt : ${userPrompt}`)
     // Create client using environment variables for API key
     const client = await ClientFactory.createAPIClient(apiName, clientOptions)
     const response = await client.chat([
