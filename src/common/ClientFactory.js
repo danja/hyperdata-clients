@@ -25,9 +25,9 @@ class ClientFactory {
 
     static async createClient(provider, config = {}) {
         if (provider === 'mcp') {
-            return this.createMCPClient(config)
+            return await this.createMCPClient(config)
         } else {
-            return this.createAPIClient(provider, config)
+            return await this.createAPIClient(provider, config)
         }
     }
 
