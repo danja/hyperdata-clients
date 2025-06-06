@@ -1,7 +1,8 @@
 import APIClient from '../common/APIClient.js'
 import APIError from '../common/APIError.js'
-
+import Groq from 'groq-sdk'
 // Import the appropriate SDK based on environment
+/*
 let Groq
 try {
     if (process.env.NODE_ENV === 'test') {
@@ -13,6 +14,7 @@ try {
     console.warn('Failed to load Groq SDK:', error)
     throw error
 }
+*/
 
 export class Groqq extends APIClient {
     constructor(config = {}) {
