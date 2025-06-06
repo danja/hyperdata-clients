@@ -44,7 +44,7 @@ export class Groqq extends APIClient {
     }
 
     async complete(prompt, options = {}) {
-        return this.chat([{ role: 'user', content: prompt }], options)
+        return await this.chat([{ role: 'user', content: prompt }], options)
     }
 
     async embedding(text, options = {}) {

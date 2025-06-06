@@ -20,7 +20,7 @@ export class Claude extends APIClient {
     async chat(messages, options = {}) {
         try {
             const response = await this.client.messages.create({
-                model: options.model || 'claude-3-opus-20240229',
+                model: options.model || 'claude-3-5-haiku-latest',
                 messages,
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
@@ -33,7 +33,7 @@ export class Claude extends APIClient {
     }
 
     async complete(prompt, options = {}) {
-        return this.chat([{ role: 'user', content: prompt }], options)
+        return await this.chat([{ role: 'user', content: prompt }], options)
     }
 
     async embedding(text, options = {}) {
