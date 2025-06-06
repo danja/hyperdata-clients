@@ -37,7 +37,15 @@ There's a very basic CLI for checking the thing (see below), also runnable hardc
 node examples/MistralMinimal.js
 ```
 
+```javascript
+import { createClient } from 'hyperdata-clients';
 
+// For API clients
+const openAIClient = await createClient('openai', { apiKey: 'your-api-key' });
+
+// For MCP clients (untested)
+const mcpClient = await createClient('mcp', { /* mcp config */ });
+```
 
 ## Features
 

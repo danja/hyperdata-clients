@@ -1,6 +1,11 @@
 // clients.d.ts
 import { AIConfig, Message, MCPResource, MCPTool, MCPPrompt, MCPState } from './index';
 
+declare class ClientFactory {
+    static createClient(provider: string, config?: AIConfig): Promise<APIClient>;
+    static createAPIClient(provider: string, config?: AIConfig): Promise<APIClient>;
+}
+
 export abstract class APIClient {
     constructor(config?: AIConfig);
     abstract chat(messages: Message[], options?: Record<string, any>): Promise<string>;
@@ -24,6 +29,11 @@ export function createAPIClient(
     config?: AIConfig
 ): Promise<APIClient & Partial<MCPClient>>;
 
+export function createClient(
+    provider: string,
+    config?: AIConfig
+): Promise<APIClient | MCPClient>;
+
 // Provider-specific types
 export interface OpenAIOptions {
     model?: string;
@@ -46,4 +56,10 @@ export interface OllamaOptions {
         num_ctx?: number;
         [key: string]: any;
     };
+}
+
+export interface ProviderConfig extends AIConfig {
+    provider?: string;
+    apiKey?: string;
+    [key: string]: any;
 }

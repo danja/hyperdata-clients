@@ -53,6 +53,6 @@ export default {
 };
 
 // Convenience function to create a client
-export const createClient = async (provider, config) => {
-    return ClientFactory.createAPIClient(provider, config);
+export const createClient = (provider, config) => {
+    return ClientFactory.createClient(provider, config);
 };

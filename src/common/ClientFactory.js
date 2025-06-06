@@ -23,6 +23,14 @@ class ClientFactory {
         huggingface: HuggingFace
     }
 
+    static async createClient(provider, config = {}) {
+        if (provider === 'mcp') {
+            return this.createMCPClient(config)
+        } else {
+            return this.createAPIClient(provider, config)
+        }
+    }
+
     static async createAPIClient(provider, config = {}) {
         const normalizedProvider = provider.toLowerCase()
         const ClientClass = ClientFactory.PROVIDERS[normalizedProvider]
