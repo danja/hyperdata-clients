@@ -32,39 +32,39 @@ class HuggingFace extends APIClient {
         }
     }
 
-    async await complete(prompt, options = {}) {
-    try {
-        const response = await this.client.textGeneration({
-            model: options.model || 'gpt2',
-            inputs: prompt,
-            parameters: {
-                max_new_tokens: options.maxTokens || 50,
-                temperature: options.temperature || 0.7,
-                ...options.parameters
-            }
-        })
-        return response.generated_text
-    } catch (error) {
-        throw new APIError(error.message, 'huggingface', error.status)
+    async complete(prompt, options = {}) {
+        try {
+            const response = await this.client.textGeneration({
+                model: options.model || 'gpt2',
+                inputs: prompt,
+                parameters: {
+                    max_new_tokens: options.maxTokens || 50,
+                    temperature: options.temperature || 0.7,
+                    ...options.parameters
+                }
+            })
+            return response.generated_text
+        } catch (error) {
+            throw new APIError(error.message, 'huggingface', error.status)
+        }
     }
-}
 
     async embedding(text, options = {}) {
-    try {
-        const response = await this.client.featureExtraction({
-            model: options.model || 'sentence-transformers/all-MiniLM-L6-v2',
-            inputs: text instanceof Array ? text : [text],
-            ...options
-        })
-        return response[0]
-    } catch (error) {
-        throw new APIError(error.message, 'huggingface', error.status)
+        try {
+            const response = await this.client.featureExtraction({
+                model: options.model || 'sentence-transformers/all-MiniLM-L6-v2',
+                inputs: text instanceof Array ? text : [text],
+                ...options
+            })
+            return response[0]
+        } catch (error) {
+            throw new APIError(error.message, 'huggingface', error.status)
+        }
     }
-}
 
     async stream(messages, callback, options = {}) {
-    throw new APIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
-}
+        throw new APIError('Streaming not supported by HuggingFace Inference API', 'huggingface', 'UNSUPPORTED_OPERATION')
+    }
 }
 
 export default HuggingFace
