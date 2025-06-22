@@ -25,7 +25,7 @@ export class Groqq extends APIClient {
             throw new Error('Groq API key is required. Provide it in constructor or set GROQ_API_KEY environment variable.')
         }
 
-        this.client = new Groq(apiKey)
+        this.client = new Groq({ apiKey })
     }
 
     async chat(messages, options = {}) {

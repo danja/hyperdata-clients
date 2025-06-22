@@ -6,6 +6,8 @@ import APIClient from './common/APIClient.js';
 import APIError from './common/APIError.js';
 import ClientFactory from './common/ClientFactory.js';
 import KeyManager from './common/KeyManager.js';
+import EmbeddingClient from './common/EmbeddingClient.js';
+import EmbeddingFactory from './common/EmbeddingFactory.js';
 
 // Provider classes
 import Claude from './providers/Claude.js';
@@ -17,6 +19,10 @@ import Ollama from './providers/Ollama.js';
 import OpenAIClient from './providers/OpenAI.js';
 import Perplexity from './providers/Perplexity.js';
 
+// Embedding providers
+import NomicEmbeddingClient from './providers/NomicEmbedding.js';
+import OllamaEmbeddingClient from './providers/OllamaEmbedding.js';
+
 // Export all as named exports
 export {
     // Common utilities
@@ -24,6 +30,8 @@ export {
     APIError,
     ClientFactory,
     KeyManager,
+    EmbeddingClient,
+    EmbeddingFactory,
 
     // Provider implementations
     Claude,
@@ -33,7 +41,11 @@ export {
     Mistral,
     Ollama,
     OpenAIClient as OpenAI, // Renamed to more intuitive name
-    Perplexity
+    Perplexity,
+
+    // Embedding providers
+    NomicEmbeddingClient,
+    OllamaEmbeddingClient
 };
 
 // Also export a default object for CommonJS compatibility
@@ -42,6 +54,8 @@ export default {
     APIError,
     ClientFactory,
     KeyManager,
+    EmbeddingClient,
+    EmbeddingFactory,
     Claude,
     Groqq,
     HuggingFace,
@@ -49,10 +63,17 @@ export default {
     Mistral,
     Ollama,
     OpenAI: OpenAIClient,
-    Perplexity
+    Perplexity,
+    NomicEmbeddingClient,
+    OllamaEmbeddingClient
 };
 
 // Convenience function to create a client
 export const createClient = (provider, config) => {
     return ClientFactory.createClient(provider, config);
+};
+
+// Convenience function to create an embedding client
+export const createEmbeddingClient = (provider, config) => {
+    return EmbeddingFactory.createEmbeddingClient(provider, config);
 };

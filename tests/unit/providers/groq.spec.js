@@ -1,12 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from 'vitest';
-import { Groq } from '../../helpers/mockGroq.js';
 import Groqq from '../../../src/providers/Groqq.js';
 import APIError from '../../../src/common/APIError.js';
 
-// Mock the Groq import in the Groqq module
-vi.mock('../../helpers/mockGroq.js', () => ({
-    Groq: vi.fn()
+// Mock the groq-sdk module
+vi.mock('groq-sdk', () => ({
+    default: vi.fn()
 }));
+
+import Groq from 'groq-sdk';
 
 // Store the original NODE_ENV
 const originalNodeEnv = process.env.NODE_ENV;

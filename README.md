@@ -38,10 +38,14 @@ node examples/MistralMinimal.js
 ```
 
 ```javascript
-import { createClient } from 'hyperdata-clients';
+import { createClient, createEmbeddingClient } from 'hyperdata-clients';
 
 // For API clients
 const openAIClient = await createClient('openai', { apiKey: 'your-api-key' });
+
+// For embedding clients
+const nomicClient = await createEmbeddingClient('nomic', { apiKey: 'your-nomic-key' });
+const ollamaEmbedding = await createEmbeddingClient('ollama');
 
 // For MCP clients (untested)
 const mcpClient = await createClient('mcp', { /* mcp config */ });
@@ -50,13 +54,14 @@ const mcpClient = await createClient('mcp', { /* mcp config */ });
 ## Features
 
 - Support for multiple AI providers
+- Dedicated embedding model support
 - Environment-based configuration
 - Secure API key management
 - Consistent interface across providers
 - Type definitions included
 - Extensive test coverage
 
-### Providers
+### Chat Providers
 - Ollama 
 - OpenAI
 - Claude 
@@ -64,6 +69,10 @@ const mcpClient = await createClient('mcp', { /* mcp config */ });
 - Groq
 - Perplexity
 - HuggingFace
+
+### Embedding Providers
+- Nomic (via Atlas API)
+- Ollama (local embeddings)
 
 ## Installation
 
@@ -95,6 +104,42 @@ npm run ask ollama 'how are you?'
 # requires an API key
 node examples/minimal.js openai 'what are you?'
 ```
+
+## Embedding Models
+
+The library provides dedicated support for text embeddings through specialized embedding clients:
+
+```javascript
+import { createEmbeddingClient } from 'hyperdata-clients';
+
+// Using Nomic Atlas API (requires NOMIC_API_KEY)
+const nomicClient = await createEmbeddingClient('nomic');
+const embeddings = await nomicClient.embed([
+    'The quick brown fox jumps over the lazy dog',
+    'Artificial intelligence is transforming technology'
+]);
+
+// Using local Ollama (requires Ollama running with nomic-embed-text-v1.5)
+const ollamaClient = await createEmbeddingClient('ollama');
+const singleEmbedding = await ollamaClient.embedSingle('Hello world');
+
+// Example output: embeddings are arrays of numbers
+console.log(`Generated ${embeddings.length} embeddings`);
+console.log(`Each embedding has ${embeddings[0].length} dimensions`);
+```
+
+### Embedding Example
+
+```bash
+# Run the embedding demo
+node examples/embedding.js
+```
+
+The embedding clients support:
+- **Batch processing**: Embed multiple texts at once
+- **Single text convenience**: `embedSingle()` method for individual texts  
+- **Model selection**: Custom model via options
+- **Error handling**: Consistent error handling across providers
 
 ## Architecture
 
