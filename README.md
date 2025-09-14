@@ -17,6 +17,16 @@ Using mistral key from: .env file
 ...it's uncertain how many would be needed to change a lightbulb...
 ```
 
+```sh
+npm run ask groq 'What is your name, and which model are you?'
+...
+Using API: groq
+Model: default
+Prompt: What is your name, and which model are you?
+
+I'm an artificial intelligence model known as Llama. Llama stands for "Large Language Model Meta AI."
+```
+
 import { OpenAI, Claude, KeyManager } from 'hyperdata-clients';
 
 ## Status: 2025-06-04 doc fixes, barrel file, version bump.
@@ -25,6 +35,7 @@ Working for me against :
 
 - Ollama (local)
 - Mistral (free & speedy, needs API key)
+- Groq (fast inference, needs API key)
 - OpenAI (requires $s and API key)
 
 Various other clients sketched out, will likely need tweaking.
@@ -35,6 +46,7 @@ There's a very basic CLI for checking the thing (see below), also runnable hardc
 
 ```sh
 node examples/MistralMinimal.js
+node examples/GroqMinimal.js
 ```
 
 ```javascript
@@ -97,6 +109,9 @@ node examples/minimal.js [provider] [options] "your prompt"
 
 # Mistral
 npm run ask mistral --model 'open-codestral-mamba' 'tell me about yourself'
+
+# Groq (fast inference)
+npm run ask groq --model 'llama-3.1-8b-instant' 'explain quantum computing'
 
 # Example with Ollama running locally, it'll default model to qwen2:1.5b
 npm run ask ollama 'how are you?'

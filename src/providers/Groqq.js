@@ -31,7 +31,7 @@ export class Groqq extends APIClient {
     async chat(messages, options = {}) {
         try {
             const response = await this.client.chat.completions.create({
-                model: options.model || 'llama3-8b-8192',
+                model: options.model || this.config.model || 'llama-3.1-8b-instant',
                 messages,
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
@@ -54,7 +54,7 @@ export class Groqq extends APIClient {
     async stream(messages, callback, options = {}) {
         try {
             const stream = await this.client.chat.completions.create({
-                model: options.model || 'llama3-8b-8192',
+                model: options.model || this.config.model || 'llama-3.1-8b-instant',
                 messages,
                 temperature: options.temperature || 0.7,
                 max_tokens: options.maxTokens,
